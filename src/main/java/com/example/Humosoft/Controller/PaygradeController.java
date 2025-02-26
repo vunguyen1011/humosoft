@@ -1,0 +1,63 @@
+package com.example.Humosoft.Controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.example.Humosoft.DTO.Request.PayGradeRequest;
+import com.example.Humosoft.DTO.Response.Apiresponse;
+import com.example.Humosoft.Model.Paygrade;
+import com.example.Humosoft.Service.PayGradeService;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/paygrade")
+public class PaygradeController {
+
+	private final PayGradeService paygradeService;
+
+	// Endpoint to create a new Paygrade
+	@PostMapping
+	public Apiresponse<Paygrade> createPaygrade(@RequestBody PayGradeRequest paygradeRequest) {
+		Paygrade paygrade = paygradeService.create(paygradeRequest);
+		return Apiresponse.<Paygrade>builder().code(201).message("Paygrade created successfully").result(paygrade)
+				.build();
+	}
+
+	// Endpoint to update an existing Paygrade
+	@PutMapping("/{id}")
+	public Apiresponse<Paygrade> updatePaygrade(@PathVariable Integer id,
+			@RequestBody PayGradeRequest paygradeRequest) {
+		Paygrade updatedPaygrade = paygradeService.update(id, paygradeRequest);
+		if (updatedPaygrade != null) {
+			return Apiresponse.<Paygrade>builder().code(200).message("Paygrade updated successfully")
+					.result(updatedPaygrade).build();
+		} else {
+			return Apiresponse.<Paygrade>builder().code(404).message("Paygrade not found").result(null).build();
+		}
+	}
+
+	// Endpoint to get a specific Paygrade by id
+	@GetMapping("/{id}")
+	public Apiresponse<Paygrade> getPaygradeById(@PathVariable Integer id) {
+		Paygrade paygrade = paygradeService.getById(id);
+		if (paygrade != null) {
+			return Apiresponse.<Paygrade>builder().code(200).message("Paygrade found").result(paygrade).build();
+		} else {
+			return Apiresponse.<Paygrade>builder().code(404).message("Paygrade not found").result(null).build();
+		}
+	}
+
+	// Endpoint to delete a Paygrade by id
+	@DeleteMapping("/{id}")
+	public Apiresponse<Void> deletePaygrade(@PathVariable Integer id) {
+		paygradeService.delete(id);
+
+		return Apiresponse.<Void>builder().code(204).message("Paygrade deleted successfully").result(null).build();
+
+	}
+}

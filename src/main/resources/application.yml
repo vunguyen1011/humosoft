@@ -1,16 +1,27 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/humosoft_cnpm
+    url: jdbc:mysql://localhost:3306/humosoft_cnpm?useSSL=false&serverTimezone=UTC
     username: root
-    password: root
+    password: 
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 10
       minimum-idle: 5
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+
   jpa:
     hibernate:
-      ddl-auto: create  # Có thể là 'create', 'update', 'create-drop' hoặc 'validate'
+      ddl-auto: create  # Validate để tránh thay đổi cấu trúc bảng không mong muốn
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect  # Thay đổi tại đây
-    show-sql: true  # Hiển thị SQL trong console khi ứng dụng chạy
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+
+  security:
+    jwt:
+      secret-key: Ewu4H0jzCNxXtoJS1D9YzLZ/zENfOLLdYQIudk+P5BLa66bFbXt2D/to55MViGnF  # Lấy từ biến môi trường hoặc dịch vụ bảo mật
+      expiration: 86400000
+      refresh-token:
+        expiration: 604800000
