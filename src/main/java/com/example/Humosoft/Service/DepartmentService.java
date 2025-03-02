@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.Humosoft.DTO.Request.DepartmentRequest;
+import com.example.Humosoft.Exception.ErrorCode;
+import com.example.Humosoft.Exception.WebErrorConfig;
 import com.example.Humosoft.Mapper.DepartmentMapper;
 import com.example.Humosoft.Model.Department;
 import com.example.Humosoft.Repository.DepartmentRepository;
@@ -32,7 +34,7 @@ public class DepartmentService {
 	        return null;  // Or throw an exception if department is not found
 	    }
 	 public Department getDepartmentById(Integer id) {
-	        return departmentRepository.findById(id).orElseThrow(()->new RuntimeException("PHong ban nay khong ton tai"));
+	        return departmentRepository.findById(id).orElseThrow(()->new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
 	        
 	    }
 	 public List<Department> getAll(){

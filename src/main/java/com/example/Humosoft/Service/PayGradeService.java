@@ -2,6 +2,8 @@ package com.example.Humosoft.Service;
 
 import org.springframework.stereotype.Service;
 import com.example.Humosoft.DTO.Request.PayGradeRequest;
+import com.example.Humosoft.Exception.ErrorCode;
+import com.example.Humosoft.Exception.WebErrorConfig;
 import com.example.Humosoft.Mapper.PaygradeMapper;
 import com.example.Humosoft.Model.Paygrade;
 import com.example.Humosoft.Repository.PayGradeRepository;
@@ -12,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class PayGradeService {
+public class PaygradeService {
 
 	private final PayGradeRepository paygradeRepository;
 	private final PaygradeMapper paygradeMapper;
@@ -30,8 +32,7 @@ public class PayGradeService {
 
 	// Get PayGrade by ID
 	public Paygrade getById(Integer id) {
-		Optional<Paygrade> paygrade = paygradeRepository.findById(id); // Tìm kiếm PayGrade theo ID
-		return paygrade.orElse(null); // Nếu tìm thấy trả về, nếu không trả về null
+		return paygradeRepository.findById(id).orElseThrow(()->new WebErrorConfig(ErrorCode.PAYGRADE_NOT_FOUND));
 	}
 
 	// Update PayGrade by ID

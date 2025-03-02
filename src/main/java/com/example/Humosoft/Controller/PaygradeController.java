@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import com.example.Humosoft.DTO.Request.PayGradeRequest;
 import com.example.Humosoft.DTO.Response.Apiresponse;
 import com.example.Humosoft.Model.Paygrade;
-import com.example.Humosoft.Service.PayGradeService;
+
+import com.example.Humosoft.Service.PaygradeService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/paygrade")
 public class PaygradeController {
 
-	private final PayGradeService paygradeService;
+	private final PaygradeService paygradeService;
 
 	// Endpoint to create a new Paygrade
 	@PostMapping
@@ -33,23 +34,19 @@ public class PaygradeController {
 	public Apiresponse<Paygrade> updatePaygrade(@PathVariable Integer id,
 			@RequestBody PayGradeRequest paygradeRequest) {
 		Paygrade updatedPaygrade = paygradeService.update(id, paygradeRequest);
-		if (updatedPaygrade != null) {
-			return Apiresponse.<Paygrade>builder().code(200).message("Paygrade updated successfully")
-					.result(updatedPaygrade).build();
-		} else {
-			return Apiresponse.<Paygrade>builder().code(404).message("Paygrade not found").result(null).build();
-		}
+
+		return Apiresponse.<Paygrade>builder().code(200).message("Paygrade updated successfully")
+				.result(updatedPaygrade).build();
+
 	}
 
 	// Endpoint to get a specific Paygrade by id
 	@GetMapping("/{id}")
 	public Apiresponse<Paygrade> getPaygradeById(@PathVariable Integer id) {
 		Paygrade paygrade = paygradeService.getById(id);
-		if (paygrade != null) {
-			return Apiresponse.<Paygrade>builder().code(200).message("Paygrade found").result(paygrade).build();
-		} else {
-			return Apiresponse.<Paygrade>builder().code(404).message("Paygrade not found").result(null).build();
-		}
+
+		return Apiresponse.<Paygrade>builder().code(200).message("Paygrade found").result(paygrade).build();
+
 	}
 
 	// Endpoint to delete a Paygrade by id

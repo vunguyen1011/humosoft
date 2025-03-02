@@ -11,8 +11,8 @@ import lombok.Data;
 @Builder
 @Data
 public class PositionRequest {
-	  private String positionName;
-	    private String departmentName;
-	    private String paygradeName;
-	    private String description;
+	private String positionName;
+
+	private String paygradeName;
+	private String description;
 }

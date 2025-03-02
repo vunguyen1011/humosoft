@@ -6,26 +6,25 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Builder;
+import lombok.Data;
 
 @Entity
+@Data
+@Builder
 public class Position {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-    private String positionName;
+	private String positionName;
 
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
+	@ManyToOne
+	@JoinColumn(name = "paygrade_id")
+	private Paygrade paygrade;
 
-    @ManyToOne
-    @JoinColumn(name = "paygrade_id")
-    private Paygrade paygrade;
+	private String description;
 
-    private String description;
-
-    // Getters and Setters
+	// Getters and Setters
 }
-
