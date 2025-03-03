@@ -8,4 +8,5 @@ import com.example.Humosoft.Model.Paygrade;
 
 public interface PayGradeRepository extends JpaRepository<Paygrade, Integer>{
 	Optional<Paygrade> findByPaygradeName(String paygradeName);
+	boolean existsByPaygradeName(String paygradeName);
 }

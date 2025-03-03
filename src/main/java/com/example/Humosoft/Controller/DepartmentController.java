@@ -8,20 +8,22 @@ import org.springframework.web.bind.annotation.*;
 import com.example.Humosoft.DTO.Request.DepartmentRequest;
 import com.example.Humosoft.Model.Department;
 import com.example.Humosoft.Service.DepartmentService;
+
+import lombok.RequiredArgsConstructor;
+
 import com.example.Humosoft.DTO.Response.Apiresponse;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/department")
+@RequestMapping("/departments")
+@RequiredArgsConstructor
 public class DepartmentController {
 
     private final DepartmentService departmentService;
 
-    @Autowired
-    public DepartmentController(DepartmentService departmentService) {
-        this.departmentService = departmentService;
-    }
+   
+    
 
     // Create a new Department
     @PostMapping

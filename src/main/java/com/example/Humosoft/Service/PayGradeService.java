@@ -22,6 +22,9 @@ public class PaygradeService {
 	// Create a new PayGrade
 	public Paygrade create(PayGradeRequest paygradeRequest) {
 		Paygrade paygrade = paygradeMapper.toPaygrade(paygradeRequest); // Chuyển đổi từ PayGradeRequest sang PayGrade
+		if(paygradeRepository.existsByPaygradeName(paygradeRequest.getPaygradeName())) {
+			throw new WebErrorConfig(ErrorCode.PAYGRADE_ALREADY_EXISTS);
+		}
 		return paygradeRepository.save(paygrade); // Lưu vào cơ sở dữ liệu và trả về đối tượng PayGrade đã lưu
 	}
 

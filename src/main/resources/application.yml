@@ -13,7 +13,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create  # Validate để tránh thay đổi cấu trúc bảng không mong muốn
+      ddl-auto: update  # Validate để tránh thay đổi cấu trúc bảng không mong muốn
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect

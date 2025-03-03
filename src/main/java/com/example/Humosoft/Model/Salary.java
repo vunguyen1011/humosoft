@@ -1,5 +1,6 @@
 package com.example.Humosoft.Model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +21,9 @@ public class Salary {
 	@JoinColumn(name = "paygrade_id")
 	private Paygrade paygrade;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")  // Đảm bảo có cột khóa ngoại trỏ đến User
+    private User user;
 	private Date salaryMonth;
 	private int baseSalary;
 	private int bonuses;

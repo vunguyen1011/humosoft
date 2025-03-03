@@ -19,21 +19,21 @@ public class ApplicationConfig {
 	   @Bean
 	   ApplicationRunner applicationRunner(RoleRepository roleRepository){
 		 return args->{
-			  Role adminRole = roleRepository.findByName("ADMIN").orElseGet(() -> {
+			  Role adminRole = roleRepository.findByName("ROLE_ADMIN").orElseGet(() -> {
 	               Role role = new Role();
-	               role.setName("ADMIN");
+	               role.setName("ROLE_ADMIN");
 	               return roleRepository.save(role);
 	           });
 
-	           Role staffRole = roleRepository.findByName("STAFF").orElseGet(() -> {
+	           Role staffRole = roleRepository.findByName("ROLE_STAFF").orElseGet(() -> {
 	               Role role = new Role();
-	               role.setName("STAFF");
+	               role.setName("ROLE_STAFF");
 	               return roleRepository.save(role);
 	           });
 
-	           Role userRole = roleRepository.findByName("USER").orElseGet(() -> {
+	           Role userRole = roleRepository.findByName("ROLE_USER").orElseGet(() -> {
 	               Role role = new Role();
-	               role.setName("USER");
+	               role.setName("ROLE_USER");
 	               return roleRepository.save(role);
 	           });
 		 };

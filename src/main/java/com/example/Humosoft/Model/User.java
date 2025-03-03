@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -28,9 +29,9 @@ public class User {
 	@Embedded
 	private Address address;
 	// Quan hệ với Role
-	@ManyToOne
-	@JoinColumn(name = "role_id")
-	private Role role;
+	@ManyToMany
+	@JoinTable(name = "user_role",joinColumns = @JoinColumn(name="user_id"),inverseJoinColumns = @JoinColumn(name="role_id"))
+	private Set<Role> role;
 	// Quan hệ với Position
 	@ManyToOne
 	@JoinColumn(name = "position_id")

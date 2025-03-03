@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/paygrade")
+@RequestMapping("/paygrades")
 public class PaygradeController {
 
 	private final PaygradeService paygradeService;

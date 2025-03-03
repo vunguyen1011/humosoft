@@ -20,6 +20,10 @@ public class DepartmentService {
 	private final DepartmentRepository departmentRepository;
 	private final DepartmentMapper departmentMapper;
 	 public Department createDepartment(DepartmentRequest departmentRequest) {
+		 	if(departmentRepository.existsByDepartmentName(departmentRequest.getDepartmentName()))
+		 	{
+		 		throw new WebErrorConfig(ErrorCode.DEPARTMENT_ALREADY_EXISTS);
+		 	}
 	        Department department = departmentMapper.toDepartment(departmentRequest);
 	        return departmentRepository.save(department);
 	    }

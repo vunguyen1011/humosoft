@@ -23,6 +23,10 @@ public class PositionService {
 	// Create operation
 	public Position create(PositionRequest request) {
 		Position position = positionMapper.toPosition(request);
+		if(positionRepository.existsByPositionName(request.getPositionName())) {
+			throw new WebErrorConfig(ErrorCode.POSITION_ALREADY_EXISTS);
+		}
+		
 		return positionRepository.save(position);
 	}
 

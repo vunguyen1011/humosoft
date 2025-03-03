@@ -1,6 +1,7 @@
 package com.example.Humosoft.Mapper;
 
 import java.net.PasswordAuthentication;
+import java.util.Set;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -51,7 +52,8 @@ public class UserMapper {
         user.setStatus(userRequest.isStatus());
         user.setAddress(address);  // Gán địa chỉ vào người dùng
         Role user_role =roleRepository.findByName("ROLE_USER").orElseThrow(()->new WebErrorConfig(ErrorCode.ROLE_NOT_FOUND));
-        user.setRole(user_role);
+        user.setRole(Set.of(user_role));
         return user;  // Trả về đối tượng User đã được tạo và ánh xạ
     }
+    
 }
