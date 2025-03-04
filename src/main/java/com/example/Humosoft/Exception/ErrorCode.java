@@ -9,6 +9,7 @@ public enum ErrorCode {
 	ROLE_NOT_FOUND(1005,"Role này không tồn tại"),
 	PAYGRADE_ALREADY_EXISTS(1007,"Role này không tồn tại"),
 	POSITION_ALREADY_EXISTS(1008,"Vị trí này đã tồn tại"),
+	INVALID_CREDENTIALS(1009,"Tài khoản hoặc mật khẩu không chính xác"),
 	DEPARTMENT_ALREADY_EXISTS(1006,"Phòng ban này đã tồn tại");
 	private final int code;
 	private final String message;

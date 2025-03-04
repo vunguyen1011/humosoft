@@ -12,8 +12,7 @@ public class UserRequest {
     private Date dateOfBirth;
     private String gender;
     private String image;
-    private String username;
-    private String password;
+    
     private boolean status;
 
     // Các trường địa chỉ trong UserRequest
@@ -25,4 +24,8 @@ public class UserRequest {
     private String state;        // Bang/Tỉnh
     private String postalCode;   // Mã bưu điện
     private String country;      // Quốc gia
+    
+    // vị trí và phòng ban 
+    private String positionName;
+    private String departmentName;
 }

@@ -19,10 +19,16 @@ public class PositionMapper {
 	private final PositionRepository positionRepository;
 
 	public Position toPosition(PositionRequest request) {
-		Paygrade paygrade = paygradeRepository.findByPaygradeName(request.getPaygradeName())
-				.orElseThrow(() -> new WebErrorConfig(ErrorCode.PAYGRADE_NOT_FOUND));
-		return Position.builder().description(request.getDescription()).positionName(request.getPositionName())
-				.paygrade(paygrade).build();
+	    Paygrade paygrade = paygradeRepository.findByPaygradeName(request.getPaygradeName())
+	            .orElseThrow(() -> new WebErrorConfig(ErrorCode.PAYGRADE_NOT_FOUND));
+
+	    // Tạo đối tượng Position và sử dụng setter để gán giá trị
+	    Position position = new Position();
+	    position.setDescription(request.getDescription());
+	    position.setPositionName(request.getPositionName());
+	    position.setPaygrade(paygrade);
+	    
+	    return position;
 	}
 
 	public Position updatePosition(Integer id, PositionRequest request) {
