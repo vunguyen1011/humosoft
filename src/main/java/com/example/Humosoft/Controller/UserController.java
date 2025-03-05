@@ -3,6 +3,7 @@ package com.example.Humosoft.Controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,15 +50,15 @@ public class UserController {
 				.build();
 	}
 	   // ✅ Tìm user theo ID (dùng RequestParam thay vì PathVariable)
-    @GetMapping("/find")
-    public Apiresponse<User> findUserById(@RequestParam Integer id) {
+    @GetMapping("/find/{id}")
+    public Apiresponse<User> findUserById(@PathVariable Integer id) {
         User user = userService.findUerById(id);
         return Apiresponse.<User>builder()
                 .result(user)
                 .message("User found successfully")
                 .build();
     }
-
+    
     // ✅ Tìm user trong một phòng ban
     @GetMapping("/department")
     public Apiresponse<List<UserResponse>> findUserInDepartment(@RequestParam  String departmentName) {

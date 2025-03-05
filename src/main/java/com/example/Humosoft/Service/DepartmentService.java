@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class DepartmentService {
 	private final DepartmentRepository departmentRepository;
 	private final DepartmentMapper departmentMapper;
+	private final UserService userService;
 	 public Department createDepartment(DepartmentRequest departmentRequest) {
 		 	if(departmentRepository.existsByDepartmentName(departmentRequest.getDepartmentName()))
 		 	{
@@ -44,4 +45,6 @@ public class DepartmentService {
 	 public List<Department> getAll(){
 		 return departmentRepository.findAll();
 	 }
+	 
+	 
 }
