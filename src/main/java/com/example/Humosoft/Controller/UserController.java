@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Humosoft.DTO.Request.UserLogin;
@@ -16,6 +17,7 @@ import com.example.Humosoft.Model.User;
 import com.example.Humosoft.Service.UserService;
 
 import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -24,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 	private final UserService userService;
 	@PostMapping
-	public Apiresponse<UserResponse> create(@RequestBody UserRequest request) {
+	public Apiresponse<UserResponse> create( @Valid @RequestBody UserRequest request) {
 		UserResponse user=userService.create(request);
 		return Apiresponse.<UserResponse>builder()
 				.result(user)
@@ -46,5 +48,44 @@ public class UserController {
 				.result(users)
 				.build();
 	}
+	   // ✅ Tìm user theo ID (dùng RequestParam thay vì PathVariable)
+    @GetMapping("/find")
+    public Apiresponse<User> findUserById(@RequestParam Integer id) {
+        User user = userService.findUerById(id);
+        return Apiresponse.<User>builder()
+                .result(user)
+                .message("User found successfully")
+                .build();
+    }
+
+    // ✅ Tìm user trong một phòng ban
+    @GetMapping("/department")
+    public Apiresponse<List<UserResponse>> findUserInDepartment(@RequestParam  String departmentName) {
+        List<UserResponse> users = userService.findUserInDepartment(departmentName);
+        return Apiresponse.<List<UserResponse>>builder()
+                .result(users)
+                .message("Users in department retrieved successfully")
+                .build();
+    }
+
+    // ✅ Tìm user theo username
+    @GetMapping("/searchByUsername")
+    public Apiresponse<UserResponse> findUserByUsername(@RequestParam String username) {
+        UserResponse user = userService.findUserByUsername(username);
+        return Apiresponse.<UserResponse>builder()
+                .result(user)
+                .message("User found successfully")
+                .build();
+    }
+
+    // ✅ Tìm user theo fullname hoặc email
+    @GetMapping("/search")
+    public Apiresponse<List<UserResponse>> findUserByFullNameOrEmail(@RequestParam String query) {
+        List<UserResponse> users = userService.findUserByFullNameOrEmail(query);
+        return Apiresponse.<List<UserResponse>>builder()
+                .result(users)
+                .message("User search results")
+                .build();
+    }
 	
 }

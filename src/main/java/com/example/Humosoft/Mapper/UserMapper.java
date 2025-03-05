@@ -69,6 +69,8 @@ public class UserMapper {
 
 	public UserResponse toUserResponse(User user) {
 		return UserResponse.builder().fullName(user.getFullName()).email(user.getEmail()).phone(user.getPhone())
+				.id(user.getId())
+
 				.dateOfBirth(user.getDateOfBirth()).gender(user.getGender())
 				.positionName(user.getPosition().getPositionName())
 				.departmentName(user.getDepartment().getDepartmentName()).build();
