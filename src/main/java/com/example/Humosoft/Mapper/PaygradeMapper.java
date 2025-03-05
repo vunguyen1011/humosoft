@@ -12,7 +12,7 @@ import lombok.Builder;
 public class PaygradeMapper {
 public Paygrade toPaygrade(PayGradeRequest paygradeRequest) {
 	Paygrade paygrade= new Paygrade();
-	paygrade.setBaseSalary(paygrade.getBaseSalary());
+	paygrade.setBaseSalary(paygradeRequest.getBaseSalary());
 	paygrade.setPaygradeName(paygradeRequest.getPaygradeName());
 	paygrade.setDescription(paygradeRequest.getDescription());
 	return paygrade;
