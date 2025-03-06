@@ -10,6 +10,7 @@ import com.example.Humosoft.Exception.ErrorCode;
 import com.example.Humosoft.Exception.WebErrorConfig;
 import com.example.Humosoft.Mapper.DepartmentMapper;
 import com.example.Humosoft.Model.Department;
+import com.example.Humosoft.Model.User;
 import com.example.Humosoft.Repository.DepartmentRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class DepartmentService {
 	private final DepartmentRepository departmentRepository;
 	private final DepartmentMapper departmentMapper;
 	private final UserService userService;
+	
 	 public Department createDepartment(DepartmentRequest departmentRequest) {
 		 	if(departmentRepository.existsByDepartmentName(departmentRequest.getDepartmentName()))
 		 	{
@@ -45,6 +47,8 @@ public class DepartmentService {
 	 public List<Department> getAll(){
 		 return departmentRepository.findAll();
 	 }
-	 
+//	 public  void addEmployees(  User user,String deparment ) {
+//		 Department department 
+//	 }
 	 
 }
