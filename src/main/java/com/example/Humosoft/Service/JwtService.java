@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.example.Humosoft.Exception.ErrorCode;
+import com.example.Humosoft.Exception.WebErrorConfig;
 import com.example.Humosoft.Model.User;
 import com.example.Humosoft.Repository.UserRepository;
 
@@ -43,14 +45,17 @@ public class JwtService {
     public String generateRefreshToken(String username) {
         return buildToken(username, refreshExpiration);
     }
-
+    // tạo token quên mật khẩu 
+    public String generateForgotPassword(String username) {
+    	return buildToken(username, 900000);
+    }
     // Xây dựng token
     private String buildToken(String username, long time) {
         System.out.println(username);
 
    
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new WebErrorConfig(ErrorCode.ROLE_NOT_FOUND));
 
         return Jwts.builder()
                 .setSubject(username) // Subject là tên người dùng

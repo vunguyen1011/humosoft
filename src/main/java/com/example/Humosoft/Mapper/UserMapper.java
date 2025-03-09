@@ -1,6 +1,8 @@
 package com.example.Humosoft.Mapper;
 
 import java.net.PasswordAuthentication;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,18 +47,21 @@ public class UserMapper {
 
 		// Tạo đối tượng User và ánh xạ các giá trị
 		User user = new User();
+		boolean gender=userRequest.getGender().equals("Male")?true:false;
 		user.setFullName(userRequest.getFullName());
 		user.setEmail(userRequest.getEmail());
 		user.setPhone(userRequest.getPhone());
 		user.setDateOfBirth(userRequest.getDateOfBirth());
-		user.setGender(userRequest.getGender());
+		user.setGender(gender);
 		user.setImage(userRequest.getImage());
-
+		user.setCreatedAt(new Date());
 		user.setStatus(userRequest.isStatus());
 		user.setAddress(address); // Gán địa chỉ vào người dùng
 		Role user_role = roleRepository.findByName("ROLE_USER")
 				.orElseThrow(() -> new WebErrorConfig(ErrorCode.ROLE_NOT_FOUND));
-		user.setRole(Set.of(user_role));
+		Set<Role> roles = new HashSet<>();
+		roles.add(user_role);
+		user.setRole(roles);
 		Department department = departmentRepository.findByDepartmentName(userRequest.getDepartmentName())
 				.orElseThrow(() -> new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
 		Position position = positionRepository.findByPositionName(userRequest.getPositionName())
@@ -71,7 +76,8 @@ public class UserMapper {
 		return UserResponse.builder().fullName(user.getFullName()).email(user.getEmail()).phone(user.getPhone())
 				.id(user.getId())
 
-				.dateOfBirth(user.getDateOfBirth()).gender(user.getGender())
+				.dateOfBirth(user.getDateOfBirth()).
+				gender(user.isGender()?"Male":"Female")
 				.positionName(user.getPosition().getPositionName())
 				.departmentName(user.getDepartment().getDepartmentName()).build();
 	}

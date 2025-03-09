@@ -28,6 +28,7 @@ public class Position {
 	private Paygrade paygrade;
 
 	private String description;
+	private Boolean deleted=false;
 
 	// Getters and Setters
 }

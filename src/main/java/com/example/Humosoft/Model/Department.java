@@ -17,6 +17,9 @@ public class Department {
     private String departmentName;
     private String description;
     private int employees=0;
-   
+
+    private Boolean deleted=false;
+    
+
     // Getters and Setters
 }

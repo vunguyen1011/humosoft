@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Humosoft.DTO.Request.ForgotPasswordRequest;
 import com.example.Humosoft.DTO.Request.UserLogin;
 import com.example.Humosoft.DTO.Request.UserRequest;
 import com.example.Humosoft.DTO.Response.Apiresponse;
@@ -60,14 +61,7 @@ public class UserController {
     }
     
     // ✅ Tìm user trong một phòng ban
-    @GetMapping("/department")
-    public Apiresponse<List<UserResponse>> findUserInDepartment(@RequestParam  String departmentName) {
-        List<UserResponse> users = userService.findUserInDepartment(departmentName);
-        return Apiresponse.<List<UserResponse>>builder()
-                .result(users)
-                .message("Users in department retrieved successfully")
-                .build();
-    }
+   
 
     // ✅ Tìm user theo username
     @GetMapping("/searchByUsername")
@@ -88,5 +82,12 @@ public class UserController {
                 .message("User search results")
                 .build();
     }
-	
+    @PostMapping("/forgot-password")
+    public Apiresponse<Void> forgotPassword(@RequestBody ForgotPasswordRequest request) {
+        userService.forgotPassword(request);
+        return Apiresponse.<Void>builder()
+                .message("Password reset successfully")
+                .build();
+    }
+
 }

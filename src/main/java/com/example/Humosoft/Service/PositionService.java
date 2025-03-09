@@ -38,9 +38,8 @@ public class PositionService {
 
 	// Read operation: Get all positions
 	public List<Position> getAll() {
-		return positionRepository.findAll();
+	    return positionRepository.findByDeletedFalse();
 	}
-
 	// Update operation
 	public Position update(Integer id, PositionRequest request) {
 
@@ -51,7 +50,9 @@ public class PositionService {
 
 	// Delete operation
 	public void delete(Integer id) {
-		Position existingPosition = getById(id); // Ensure the position exists
-		positionRepository.delete(existingPosition);
+		 Position existingPosition = getById(id);
+		    existingPosition.setDeleted(true);
+		    positionRepository.save(existingPosition);
+		
 	}
 }

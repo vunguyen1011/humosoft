@@ -30,7 +30,7 @@ public class PaygradeService {
 
 	// Get all PayGrades
 	public List<Paygrade> getAll() {
-		return paygradeRepository.findAll(); // Lấy tất cả các PayGrade từ cơ sở dữ liệu
+		return paygradeRepository.findByDeletedFalse();
 	}
 
 	// Get PayGrade by ID
@@ -52,8 +52,11 @@ public class PaygradeService {
 
 	// Delete PayGrade by ID
 	public void delete(Integer id) {
-		if (paygradeRepository.existsById(id)) { // Kiểm tra xem PayGrade có tồn tại không
-			paygradeRepository.deleteById(id); // Xóa PayGrade
-		}
+	    Paygrade paygrade = paygradeRepository.findById(id)
+	            .orElseThrow(() -> new WebErrorConfig(ErrorCode.PAYGRADE_NOT_FOUND));
+	    
+	    paygrade.setDeleted(true);  // Đánh dấu là đã xóa
+	    paygradeRepository.save(paygrade); // Lưu lại thay vì xóa khỏi DB
 	}
+
 }

@@ -19,6 +19,7 @@ public class Paygrade {
     private String paygradeName;
     private Integer baseSalary;
     private String description;
+    private Boolean deleted=false;
 
     // Getters and Setters
 }

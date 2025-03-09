@@ -19,18 +19,23 @@ public class User {
 	private String email;
 	private String phone;
 	private Date dateOfBirth;
-	private String gender;
+
+	private boolean gender;
 	private String image;
 	private String username;
 	private String password;
-	@Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+
+	@Column(name = "created_at", columnDefinition = "DATE DEFAULT CURRENT_TIMESTAMP")
 	private Date createdAt;
+	@Column(name = "quit_at", columnDefinition = "DATE DEFAULT CURRENT_TIMESTAMP")
+	private Date quitAt;
 	private boolean status;
+	private boolean deleted=false;
 	@Embedded
 	private Address address;
 	// Quan hệ với Role
 	@ManyToMany
-	@JoinTable(name = "user_role",joinColumns = @JoinColumn(name="user_id"),inverseJoinColumns = @JoinColumn(name="role_id"))
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> role;
 	// Quan hệ với Position
 	@ManyToOne
@@ -47,5 +52,10 @@ public class User {
 	// Mối quan hệ giữa User và Salary
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Salary> salaries;
+	private String oldPassword;
+	@PrePersist
+	protected void onCreate() {
+		this.createdAt = new Date(); // Gán thời gian hiện tại khi entity được tạo
+	}
 
 }
