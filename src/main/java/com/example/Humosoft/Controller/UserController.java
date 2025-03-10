@@ -39,7 +39,7 @@ public class UserController {
 	public Apiresponse<Void>createLogin(@RequestBody UserLogin request) throws MessagingException{
 		userService.createLogin(request);
 		return Apiresponse.<Void>builder()
-				.message(null)
+				.message("Login create success")
 				.build();
 		
 	}

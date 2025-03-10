@@ -73,12 +73,16 @@ public class UserMapper {
 	}
 
 	public UserResponse toUserResponse(User user) {
-		return UserResponse.builder().fullName(user.getFullName()).email(user.getEmail()).phone(user.getPhone())
-				.id(user.getId())
-
-				.dateOfBirth(user.getDateOfBirth()).
-				gender(user.isGender()?"Male":"Female")
-				.positionName(user.getPosition().getPositionName())
-				.departmentName(user.getDepartment().getDepartmentName()).build();
+	    return UserResponse.builder()
+	            .fullName(user.getFullName())
+	            .email(user.getEmail())
+	            .phone(user.getPhone())
+	            .id(user.getId())
+	            .dateOfBirth(user.getDateOfBirth())
+	            .gender(user.isGender() ? "Male" : "Female")
+	            .positionName(user.getPosition() != null ? user.getPosition().getPositionName() : null)
+	            .departmentName(user.getDepartment() != null ? user.getDepartment().getDepartmentName() : null)
+	            .build();
 	}
+
 }

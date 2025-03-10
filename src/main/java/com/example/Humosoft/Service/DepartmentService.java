@@ -13,8 +13,10 @@ import com.example.Humosoft.Exception.WebErrorConfig;
 import com.example.Humosoft.Mapper.DepartmentMapper;
 import com.example.Humosoft.Mapper.UserMapper;
 import com.example.Humosoft.Model.Department;
+import com.example.Humosoft.Model.Role;
 import com.example.Humosoft.Model.User;
 import com.example.Humosoft.Repository.DepartmentRepository;
+import com.example.Humosoft.Repository.RoleRepository;
 import com.example.Humosoft.Repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ public class DepartmentService {
 
 	private final UserRepository userRepository;
 	private final UserMapper userMapper;
+	private final RoleRepository roleRepository;
 
 	 public Department createDepartment(DepartmentRequest departmentRequest) {
 		 	if(departmentRepository.existsByDepartmentName(departmentRequest.getDepartmentName()))
@@ -137,6 +140,47 @@ public class DepartmentService {
 
 		    
 		}
+	 public void addManager(Integer userId, Integer departmentId) {
+		    // Tìm phòng ban theo ID
+		    Department department = departmentRepository.findById(departmentId)
+		            .orElseThrow(() -> new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
+
+		    // Tìm nhân viên theo ID
+		    User newManager = userRepository.findById(userId)
+		            .orElseThrow(() -> new WebErrorConfig(ErrorCode.USER_NOT_FOUND));
+
+		    // Tìm vai trò "ROLE_MANAGER"
+		    Role roleManager = roleRepository.findByName("ROLE_MANAGER")
+		            .orElseThrow(() -> new WebErrorConfig(ErrorCode.ROLE_NOT_FOUND));
+
+		    // Xoá vai trò "ROLE_MANAGER" của Trưởng phòng cũ (nếu có)
+		    if (department.getManagerId() != null) {
+		        User oldManager = userRepository.findById(department.getManagerId()).orElse(null);
+		        if (oldManager != null && oldManager.getRole().contains(roleManager)) {
+		            oldManager.getRole().remove(roleManager);
+		            userRepository.save(oldManager); // Lưu cập nhật vào DB
+		        }
+		    }
+
+		    // Kiểm tra nếu User mới đã là Trưởng phòng ở phòng ban khác
+		    if (departmentRepository.existsByManagerId(newManager.getId())) {
+		        throw new WebErrorConfig(ErrorCode.USER_ALREADY_MANAGER);
+		    }
+
+		    // Cập nhật Manager mới
+		    department.setManagerId(newManager.getId());
+
+		    // Nếu User mới chưa có quyền "ROLE_MANAGER", thêm vào
+		    if (!newManager.getRole().contains(roleManager)) {
+		        newManager.getRole().add(roleManager);
+		    }
+
+		    // Lưu thay đổi vào database
+		    userRepository.save(newManager);
+		    departmentRepository.save(department);
+		}
+
+
 
 
 	 
