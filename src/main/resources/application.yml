@@ -13,7 +13,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create  # "create" sẽ tạo lại bảng mỗi lần ứng dụng khởi động. Dùng "validate" để chỉ kiểm tra cấu trúc bảng.
+      ddl-auto: update  # "create" sẽ tạo lại bảng mỗi lần ứng dụng khởi động. Dùng "validate" để chỉ kiểm tra cấu trúc bảng.
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect  # Dialect cho MySQL 8
