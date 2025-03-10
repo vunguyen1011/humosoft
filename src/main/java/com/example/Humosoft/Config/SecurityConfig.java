@@ -15,16 +15,25 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-	  @Bean
-	  public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {  
-	      httpSecurity.csrf(csrf -> csrf.disable());
-	      httpSecurity
-	          .authorizeHttpRequests(request -> request
-	              .anyRequest().permitAll()  
-	          );
-	      httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+   
+    private final static String[] WHITE_URL = {"/auth/signin"};
 
-	      return httpSecurity.build();
-	  }
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        // Tắt CSRF nếu bạn đang làm việc với API và JWT
+        httpSecurity.csrf(csrf -> csrf.disable());
 
+        // Cấu hình quyền truy cập cho các endpoint công khai
+        httpSecurity
+                .authorizeHttpRequests(request -> request
+                // Các URL trong WHITE_URL không cần xác thực
+                .requestMatchers(WHITE_URL).permitAll()
+                // Các yêu cầu còn lại cần phải xác thực
+                .anyRequest().authenticated());
+
+        httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return httpSecurity.build();
+
+}
 }

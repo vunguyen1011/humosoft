@@ -111,6 +111,16 @@ public class DepartmentController {
                 .result(employees)
                 .build();
     }
+    @PostMapping("/{departmentId}/remove-employees/{employeeId}")
+    public Apiresponse<Void>removeEmpolyees(@PathVariable Integer employeeId,@PathVariable Integer departmentId){
+    	departmentService.deleteEmployee(employeeId, departmentId);
+    	  return Apiresponse.<Void>builder()
+                  .code(HttpStatus.OK.value())
+                  .message("Employee delete to department successfully")
+                 
+                  .build();
+    	
+    }
  
 }
 

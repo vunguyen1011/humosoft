@@ -9,6 +9,6 @@ import lombok.Data;
 public class DepartmentRequest {
 	private String departmentName;
 	private String description;
-	private int managerId;
+	
 	
 }

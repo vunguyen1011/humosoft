@@ -19,7 +19,7 @@ public class DepartmentMapper {
 	public Department toDepartment(DepartmentRequest request) {
 	
 Department department = new Department();
-        if(!userRepository.existsById(request.getManagerId())) throw new WebErrorConfig(ErrorCode.USER_NOT_FOUND);
+//        if(!userRepository.existsById(request.getManagerId())) throw new WebErrorConfig(ErrorCode.USER_NOT_FOUND);
         // Setting the properties of the Department object from DepartmentRequest
         department.setDepartmentName(request.getDepartmentName());
         department.setDescription(request.getDescription());

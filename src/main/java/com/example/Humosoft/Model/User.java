@@ -19,7 +19,6 @@ public class User {
 	private String email;
 	private String phone;
 	private Date dateOfBirth;
-
 	private boolean gender;
 	private String image;
 	private String username;
@@ -30,32 +29,39 @@ public class User {
 	@Column(name = "quit_at", columnDefinition = "DATE DEFAULT CURRENT_TIMESTAMP")
 	private Date quitAt;
 	private boolean status;
-	private boolean deleted=false;
+	private boolean deleted = false;
+
 	@Embedded
 	private Address address;
-	// Quan hệ với Role
-	@ManyToMany
+
+	// Quan hệ với Role (EAGER để luôn lấy dữ liệu role khi load User)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> role;
-	// Quan hệ với Position
-	@ManyToOne
+
+	// Quan hệ với Position (LAZY để chỉ lấy dữ liệu khi cần)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "position_id")
 	private Position position;
-	// Quan hệ với Department
-	@ManyToOne
+
+	// Quan hệ với Department (LAZY để tối ưu hiệu suất)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "department_id")
 	private Department department;
-	// Quan hệ với Task (ManyToMany)
-	@ManyToMany
+
+	// Quan hệ với Task (LAZY để tránh load quá nhiều dữ liệu không cần thiết)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_tasks", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "task_id"))
 	private List<Task> tasks;
-	// Mối quan hệ giữa User và Salary
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+
+	// Quan hệ với Salary (LAZY để chỉ lấy khi cần thiết)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Salary> salaries;
+
 	private String oldPassword;
+
 	@PrePersist
 	protected void onCreate() {
 		this.createdAt = new Date(); // Gán thời gian hiện tại khi entity được tạo
 	}
-
 }

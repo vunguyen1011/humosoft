@@ -113,7 +113,7 @@ public class DepartmentService {
 		    return userMapper.toUserResponse(user);
 		}
 
-	 public UserResponse deleteEmployee(Integer userId, Integer departmentId) {
+	 public void deleteEmployee(Integer userId, Integer departmentId) {
 		    // Tìm nhân viên theo ID
 		    User user = userRepository.findById(userId)
 		            .orElseThrow(() -> new WebErrorConfig(ErrorCode.USER_NOT_FOUND));
@@ -135,8 +135,7 @@ public class DepartmentService {
 		    user.setDepartment(null);
 		    userRepository.save(user);
 
-		    // Trả về thông tin nhân viên sau khi xóa khỏi phòng ban
-		    return userMapper.toUserResponse(user);
+		    
 		}
 
 
