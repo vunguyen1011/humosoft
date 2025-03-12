@@ -18,6 +18,7 @@ public class Department {
     private String departmentName;
     private String description;
     private Integer managerId;
+    private Integer employees=0;
     private Boolean deleted=false;
     
 

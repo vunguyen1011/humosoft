@@ -1,5 +1,6 @@
 package com.example.Humosoft.Model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
@@ -14,19 +15,22 @@ import lombok.Data;
 @Data
 public class Attendance {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
-
-	private Date date;
-	private String checkIn;
-	private String checkOut;
-	private String status;
-	private double totalHours;
-
-	// Getters and Setters
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user; // Nối với User
+    private String name;
+    private Date startDate; // Ngày bắt đầu
+    private Date endDate;   // Ngày kết thúc
+    private String type;    // Loại chấm công (Daily/Hour)
+    private Date date;      // Ngày chấm công
+    private LocalDateTime checkIn;
+    private LocalDateTime checkOut;
+    private String status;  // Trạng thái (Active/Locked)
+    private double totalHours;
+    private boolean isDeleted;
+    private String notes;
 }

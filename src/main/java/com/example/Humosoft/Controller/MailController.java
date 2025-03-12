@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("mails")
 public class MailController {
 	private final MailService mailService;
-	@GetMapping("/forgotPassword")
+	@GetMapping("/sendrequest")
 	public Apiresponse<Void> sendRequestForgotPassword(@RequestBody ForgotPassword request) throws MessagingException{
 		mailService.sendRequestForgotPassword(request.getToEmail(),request.getLink());
 		return Apiresponse.<Void>builder()

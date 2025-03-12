@@ -3,6 +3,7 @@ package com.example.Humosoft.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.Humosoft.DTO.Request.DepartmentRequest;
@@ -90,7 +91,10 @@ public class DepartmentController {
                 .message("Department deleted successfully")
                 .build();
     }
+    
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping("/{departmentId}/employees/{employeeId}")
+
     public Apiresponse<String> addEmployeeToDepartment(
             @PathVariable Integer departmentId, 
             @PathVariable Integer employeeId) {
@@ -111,6 +115,7 @@ public class DepartmentController {
                 .result(employees)
                 .build();
     }
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping("/{departmentId}/remove-employees/{employeeId}")
     public Apiresponse<Void>removeEmpolyees(@PathVariable Integer employeeId,@PathVariable Integer departmentId){
     	departmentService.deleteEmployee(employeeId, departmentId);
@@ -121,6 +126,34 @@ public class DepartmentController {
                   .build();
     	
     }
+    @PreAuthorize("hasRole( 'ADMIN')")
+    @PostMapping("/{departmentId}/manager/{managerId}")
+    public Apiresponse<String> addManagerToDepartment(
+            @PathVariable Integer departmentId,
+            @PathVariable Integer managerId) {
+
+        departmentService.addManager(managerId, departmentId);
+
+        return Apiresponse.<String>builder()
+                .code(HttpStatus.OK.value())  // HTTP 200
+                .message("Manager added successfully")
+                .result("User " + managerId + " is now the manager of Department " + departmentId)
+                .build();
+    }
+    @PreAuthorize("hasRole( 'ADMIN')")
+    @DeleteMapping("/{departmentId}/manager")
+    public Apiresponse<String> removeManager(@PathVariable Integer departmentId) {
+        departmentService.removeManager(departmentId);
+
+        return Apiresponse.<String>builder()
+                .code(HttpStatus.OK.value())  // HTTP 200
+                .message("Manager removed successfully")
+                .result("Manager of Department " + departmentId + " has been removed.")
+                .build();
+    }
+
+
+    
  
 }
 

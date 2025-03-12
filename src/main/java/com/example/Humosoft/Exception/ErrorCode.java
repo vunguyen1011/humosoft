@@ -11,11 +11,13 @@ public enum ErrorCode {
 	POSITION_ALREADY_EXISTS(1008,"Vị trí này đã tồn tại"),
 	INVALID_CREDENTIALS(1009,"Tài khoản hoặc mật khẩu không chính xác"),
 	DEPARTMENT_ALREADY_EXISTS(1006,"Phòng ban này đã tồn tại"),
+
 	OLD_PASSWORD_SAME(1011,"Không thể đặt lại mật khẩu giống mật khẩu cũ"),
 	USER_ALREADY_IN_DEPARTMENT(1012,"Nhân viên này đã trong phòng"),
 	USER_ALREADY_IN_ANOTHER_DEPARTMENT(1013,"Nhân viên này đã trong phòng ban khác"),
 	USER_NOT_IN_DEPARTMENT(1014,"Nhân viên không thuộc phòng ban này "),
 	USER_ALREADY_MANAGER(1015,"Đã là trưởng ban của phòng khác"),
+	NO_MANAGER_FOUND(1016,"Phòng này không có trưởng phòng"),
 	PASSWORD_MISMATCH(1010,"Mật khẩu không giống nhau");
 	private final int code;
 	private final String message;
