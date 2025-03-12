@@ -1,14 +1,13 @@
 package com.example.Humosoft.DTO.Request;
 
-import java.sql.Date;
-
 import lombok.Data;
-@Data
+import java.time.LocalDate;
 
+@Data
 public class TimeSheetRequest {
-	private String name;
-    private Date startDate;
-    private Date endDate;
-    private String type; // Daily/Hour
+    private String name;
     private Integer departmentId;
+    private LocalDate startDate;  // Đảm bảo dùng LocalDate
+    private LocalDate endDate;    // Đảm bảo dùng LocalDate
+    private String type;
 }

@@ -89,5 +89,12 @@ public class UserController {
                 .message("Password reset successfully")
                 .build();
     }
+    @GetMapping("/managers")
+    public Apiresponse<List<UserResponse>> getManagers() {
+        List<UserResponse> managers = userService.findManagers();
+        return Apiresponse.<List<UserResponse>>builder()
+                .result(managers)
+                .build();
+    }
 
 }

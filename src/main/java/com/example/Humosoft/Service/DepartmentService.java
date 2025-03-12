@@ -56,6 +56,10 @@ public class DepartmentService {
 		return departmentRepository.findById(id).orElseThrow(() -> new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
 
 	}
+	public Department getDepartmentByName(String name ) {
+		return departmentRepository.findByDepartmentName(name).orElseThrow(() -> new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
+
+	}
 
 	public List<Department> getAll() {
 		return departmentRepository.findAll();

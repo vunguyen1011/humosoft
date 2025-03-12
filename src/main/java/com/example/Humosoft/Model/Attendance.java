@@ -1,5 +1,6 @@
 package com.example.Humosoft.Model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -23,14 +24,14 @@ public class Attendance {
     @JoinColumn(name = "user_id")
     private User user; // Nối với User
     private String name;
-    private Date startDate; // Ngày bắt đầu
-    private Date endDate;   // Ngày kết thúc
+   
     private String type;    // Loại chấm công (Daily/Hour)
-    private Date date;      // Ngày chấm công
+    private LocalDate date;      // Ngày chấm công
     private LocalDateTime checkIn;
     private LocalDateTime checkOut;
     private String status;  // Trạng thái (Active/Locked)
     private double totalHours;
     private boolean isDeleted;
     private String notes;
+    
 }

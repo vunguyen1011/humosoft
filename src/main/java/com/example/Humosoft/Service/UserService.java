@@ -109,5 +109,11 @@ public class UserService {
 
 		userRepository.save(user);
 	}
+	public List<UserResponse> findManagers() {
+	    return userRepository.findByRoleName("ROLE_MANAGER")
+	                         .stream()
+	                         .map(userMapper::toUserResponse)
+	                         .collect(Collectors.toList());
+	}
 
 }

@@ -11,13 +11,20 @@ public enum ErrorCode {
 	POSITION_ALREADY_EXISTS(1008,"Vị trí này đã tồn tại"),
 	INVALID_CREDENTIALS(1009,"Tài khoản hoặc mật khẩu không chính xác"),
 	DEPARTMENT_ALREADY_EXISTS(1006,"Phòng ban này đã tồn tại"),
-
+	INVALID_DATE_RANGE(1017,"Thiết lập ngày không hợp lệ"),
+	EXCEEDS_ONE_MONTH_LIMIT(1022,"quá tháng rồi em ơi 1 tháng thôi"),
+	NO_USERS_IN_DEPARTMENT(1019,"Không có nhân viên nào trong phòng ban này"),
 	OLD_PASSWORD_SAME(1011,"Không thể đặt lại mật khẩu giống mật khẩu cũ"),
 	USER_ALREADY_IN_DEPARTMENT(1012,"Nhân viên này đã trong phòng"),
 	USER_ALREADY_IN_ANOTHER_DEPARTMENT(1013,"Nhân viên này đã trong phòng ban khác"),
 	USER_NOT_IN_DEPARTMENT(1014,"Nhân viên không thuộc phòng ban này "),
 	USER_ALREADY_MANAGER(1015,"Đã là trưởng ban của phòng khác"),
 	NO_MANAGER_FOUND(1016,"Phòng này không có trưởng phòng"),
+	TIMESHEET_ALREADY_EXISTS(1023,"TimeSheet này đã tồn tại "),
+	TIMESHEET_DATE_OVERLAP(1024,"Thời gian bị trùng"),
+	ATTENDANCE_NOT_FOUND(1025,"không thấy ngày chấm công này"),
+	ALREADY_CHECKED_IN(1026,"bạn đã chấm công rồi"),
+	ALREADY_CHECKED_OUT(1027,"Bạn đã check out rồi"),
 	PASSWORD_MISMATCH(1010,"Mật khẩu không giống nhau");
 	private final int code;
 	private final String message;

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.Humosoft.Model.Department;
@@ -19,4 +20,7 @@ public interface UserRepository  extends  JpaRepository<User,Integer>{
 	  List<User> findByDepartmentAndDeletedFalse(Department department);
 	
 	List<User> findByFullNameOrEmail(String fullName,String email);
+	@Query("SELECT DISTINCT u FROM User u JOIN u.role r WHERE r.name = :roleName AND u.deleted = false")
+	List<User> findByRoleName(@Param("roleName") String roleName);
+
 }
