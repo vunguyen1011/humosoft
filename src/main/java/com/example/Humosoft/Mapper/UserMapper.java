@@ -82,6 +82,8 @@ public class UserMapper {
 	            .gender(user.isGender() ? "Male" : "Female")
 	            .positionName(user.getPosition() != null ? user.getPosition().getPositionName() : null)
 	            .departmentName(user.getDepartment() != null ? user.getDepartment().getDepartmentName() : null)
+	            .status(user.isStatus())
+	            .createAt(user.getCreatedAt())
 	            .build();
 	}
 

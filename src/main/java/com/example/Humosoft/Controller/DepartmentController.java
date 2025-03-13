@@ -99,7 +99,7 @@ public class DepartmentController {
             @PathVariable Integer departmentId, 
             @PathVariable Integer employeeId) {
 
-        departmentService.addEmployee(departmentId, employeeId);
+        departmentService.addEmployee( employeeId , departmentId);
         return Apiresponse.<String>builder()
                 .code(HttpStatus.OK.value())
                 .message("Employee added to department successfully")
