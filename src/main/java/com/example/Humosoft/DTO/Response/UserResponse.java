@@ -16,6 +16,8 @@ public class UserResponse {
     private String gender;
     private String positionName;
     private String departmentName;
+    private String managerName;
     private boolean status;
     private Date createAt;
+   
 }

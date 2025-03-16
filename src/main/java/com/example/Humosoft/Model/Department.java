@@ -14,7 +14,7 @@ public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(nullable = true)
+
     private String departmentName;
     private String description;
     private Integer managerId;

@@ -75,8 +75,8 @@ public class UserController {
 
     // ✅ Tìm user theo fullname hoặc email
     @GetMapping("/search")
-    public Apiresponse<List<UserResponse>> findUserByFullNameOrEmail(@RequestParam String query) {
-        List<UserResponse> users = userService.findUserByFullNameOrEmail(query);
+    public Apiresponse<List<UserResponse>> findUser(@RequestParam String query) {
+        List<UserResponse> users = userService.findUser(query);
         return Apiresponse.<List<UserResponse>>builder()
                 .result(users)
                 .message("User search results")

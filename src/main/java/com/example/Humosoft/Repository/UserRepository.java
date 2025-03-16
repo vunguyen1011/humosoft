@@ -19,8 +19,16 @@ public interface UserRepository  extends  JpaRepository<User,Integer>{
 	 List<User> findByDeletedFalse();
 	  List<User> findByDepartmentAndDeletedFalse(Department department);
 	
-	List<User> findByFullNameOrEmail(String fullName,String email);
+	  @Query("SELECT u FROM User u WHERE " +
+	           "LOWER(u.fullName) LIKE LOWER(CONCAT('%', :request, '%')) " +
+	           "OR LOWER(u.email) LIKE LOWER(CONCAT('%', :request, '%')) " +
+	           "OR LOWER(u.phone) LIKE LOWER(CONCAT('%', :request, '%')) " +
+	           "OR LOWER(u.department.departmentName) LIKE LOWER(CONCAT('%', :request, '%'))")
+	    List<User> findByFullNameOrEmailOrPhoneOrDepartment(@Param("request") String request);
 	@Query("SELECT DISTINCT u FROM User u JOIN u.role r WHERE r.name = :roleName AND u.deleted = false")
 	List<User> findByRoleName(@Param("roleName") String roleName);
+	 boolean existsByEmail(String email);
+	    boolean existsByPhone(String phone);
+	    
 
 }

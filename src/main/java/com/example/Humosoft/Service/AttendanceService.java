@@ -24,8 +24,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,69 +42,74 @@ public class AttendanceService {
     private final AttendanceMapper attendanceMapper;
     private final TimeSheetMapper timeSheetMapper;
 
-    public TimeSheetResponse createTimesheet(TimeSheetRequest timeSheetRequest) {
+     public List<TimeSheetResponse> createTimeSheet(TimeSheetRequest request){
+    	List<Department> departments=new ArrayList<Department>();
+    	if(request.getDepartmentId()==0) {
+    		departments=departmentService.getAll();
+    	}
+    	else {
+    		Department department=departmentService.getDepartmentById(request.getDepartmentId());
+    		departments.add(department);
+    	}
+    	List<TimeSheetResponse> timeSheetResponses=new ArrayList<TimeSheetResponse>();
+    	for(Department d:departments) {
+    		request.setDepartmentId(d.getId());
+    		timeSheetResponses.add(createTimesheetForDepartment(d, request));
+    	}
+    	return timeSheetResponses;
+    }
+
+    
+    private TimeSheetResponse createTimesheetForDepartment(Department department, TimeSheetRequest timeSheetRequest) {
         LocalDate start = timeSheetRequest.getStartDate();
         LocalDate end = timeSheetRequest.getEndDate();
-
-        if (timesheetRepository.existsByName(timeSheetRequest.getName())) {
-            throw new WebErrorConfig(ErrorCode.TIMESHEET_ALREADY_EXISTS);
-        }
-
-        if (start.isAfter(end)) {
-            throw new WebErrorConfig(ErrorCode.INVALID_DATE_RANGE);
-        }
-
-        if (ChronoUnit.DAYS.between(start, end) >= 31) {
-            throw new WebErrorConfig(ErrorCode.EXCEEDS_ONE_MONTH_LIMIT);
-        }
-
-        Integer departmentId = timeSheetRequest.getDepartmentId();
-        logger.info("Fetching department with ID: {}", departmentId);
-        Department department = departmentService.getDepartmentById(departmentId);
-        logger.info("Department found: {}", department.getDepartmentName());
-
+     
         boolean isTimesheetExists = timesheetRepository.existsByDepartmentIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-                departmentId, end, start);
+        	    department.getId(), end, start);
+
         if (isTimesheetExists) {
             throw new WebErrorConfig(ErrorCode.TIMESHEET_DATE_OVERLAP);
         }
 
         Timesheet timesheet = timeSheetMapper.toTimeSheet(timeSheetRequest);
+        timesheet.setDepartment(department);
         timesheetRepository.save(timesheet);
-        logger.info("Created timesheet: {}", timesheet.getName());
 
         List<UserResponse> users = departmentService.findUserInDepartment(department.getDepartmentName());
-        if (users.isEmpty()) {
-            logger.warn("No users found in department: {}", department.getDepartmentName());
-            throw new WebErrorConfig(ErrorCode.NO_USERS_IN_DEPARTMENT);
+        if (!users.isEmpty()) {
+            List<Attendance> attendances = users.stream()
+                    .map(userResponse -> userService.findUerById(userResponse.getId()))
+                    .filter(Objects::nonNull)
+                    .flatMap(user -> createAttendanceForUser(user, start, end).stream())
+                    .filter(attendance -> !isAttendanceExists(attendance.getUser(), attendance.getDate()))
+                    .collect(Collectors.toList());
+
+            attendanceRepository.saveAll(attendances);
         }
-
-        List<Attendance> attendances = users.stream()
-                .map(userResponse -> userService.findUerById(userResponse.getId()))
-                .filter(user -> user != null)
-                .flatMap(user -> createAttendanceForUser(user, start, end).stream())
-                .filter(attendance -> !isAttendanceExists(attendance.getUser(), attendance.getDate()))
-                .collect(Collectors.toList());
-
-        logger.info("Saving {} attendance records to database...", attendances.size());
-        attendanceRepository.saveAll(attendances);
-        logger.info("Saved successfully.");
 
         return timeSheetMapper.toResponse(timesheet);
     }
-
-    public List<Attendance> createAttendanceForUser(User user, LocalDate startDate, LocalDate endDate) {
-        return startDate.datesUntil(endDate.plusDays(1))
-                .map(day -> {
-                    Attendance attendance = new Attendance();
-                    attendance.setUser(user);
-                    attendance.setDate(day); // Giữ nguyên kiểu LocalDate
-                    attendance.setStatus("Active");
-                    attendance.setDeleted(false);
-                    return attendance;
-                }).collect(Collectors.toList());
+    private List<Attendance> createAttendanceForUser(User user, LocalDate start, LocalDate end) {
+        List<Attendance> attendances = new ArrayList<>();
+        
+        for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
+            // Kiểm tra xem ngày đó đã tồn tại trong attendance chưa
+            boolean isAttendanceExists = attendanceRepository.existsByUserAndDate(user, date);
+            if (!isAttendanceExists) {
+                Attendance attendance = new Attendance();
+                attendance.setUser(user);
+                attendance.setDate(date);
+                attendance.setStatus("PENDING");
+                attendances.add(attendance);
+            }
+        }
+        
+        return attendances;
     }
-
+    private boolean isDepartmentTimesheetOverlap(Department department, LocalDate start, LocalDate end) {
+        return timesheetRepository.existsByDepartmentIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                department.getId(), end, start);
+    }
 
     public boolean isAttendanceExists(User user, LocalDate date) {
         return attendanceRepository.existsByUserAndDate(user, date);
@@ -179,7 +186,7 @@ public class AttendanceService {
         }
 
         attendance.setCheckIn(LocalDateTime.now()); 
-        attendance.setStatus("Checked-in");
+        attendance.setStatus("Online");
         attendanceRepository.save(attendance);
         
         return attendanceMapper.toResponse(attendance);
@@ -202,9 +209,12 @@ public class AttendanceService {
             throw new WebErrorConfig(ErrorCode.ALREADY_CHECKED_OUT);
         }
 
-        attendance.setCheckOut(LocalDateTime.now()); 
-        attendance.setStatus("Checked-out");
+        LocalDateTime now = LocalDateTime.now();
+        attendance.setCheckOut(now);
+        attendance.setStatus("Completed");
         attendanceRepository.save(attendance);
+        double totalHours = java.time.Duration.between(attendance.getCheckIn(), now).toHours();
+        attendance.setTotalHours(totalHours);
         
         return attendanceMapper.toResponse(attendance);
         

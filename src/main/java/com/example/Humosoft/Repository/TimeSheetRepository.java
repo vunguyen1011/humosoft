@@ -9,9 +9,13 @@ import com.example.Humosoft.Model.Timesheet;
 @Repository
 public interface TimeSheetRepository  extends JpaRepository<Timesheet, Integer>{
 	boolean existsByDepartmentIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-		    Integer departmentId, LocalDate endDate, LocalDate startDate
+		    Integer departmentId,  LocalDate startDate, LocalDate endDate
 		);
 	boolean existsByName(String name);
+	
+	boolean existsByDepartmentIdAndStartDateBeforeAndEndDateAfter(
+		    Integer departmentId, LocalDate endDate, LocalDate startDate
+		);
 
 
 }

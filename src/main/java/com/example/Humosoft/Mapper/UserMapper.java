@@ -20,6 +20,7 @@ import com.example.Humosoft.Model.User;
 import com.example.Humosoft.Repository.DepartmentRepository;
 import com.example.Humosoft.Repository.PositionRepository;
 import com.example.Humosoft.Repository.RoleRepository;
+import com.example.Humosoft.Repository.UserRepository;
 
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class UserMapper {
 	private final RoleRepository roleRepository;
 	private final PositionRepository positionRepository;
 	private final DepartmentRepository departmentRepository;
+	private final UserRepository userRepository;
 	// Phương thức chuyển đổi từ UserRequest sang User
 
 	public User toUser(UserRequest userRequest) {
@@ -73,6 +75,13 @@ public class UserMapper {
 	}
 
 	public UserResponse toUserResponse(User user) {
+			Integer managerId=user.getDepartment().getManagerId();
+			  User manager = null;
+			  if (user.getDepartment() != null) {
+			        managerId = user.getDepartment().getManagerId();
+			    }
+		
+
 	    return UserResponse.builder()
 	            .fullName(user.getFullName())
 	            .email(user.getEmail())
@@ -83,6 +92,7 @@ public class UserMapper {
 	            .positionName(user.getPosition() != null ? user.getPosition().getPositionName() : null)
 	            .departmentName(user.getDepartment() != null ? user.getDepartment().getDepartmentName() : null)
 	            .status(user.isStatus())
+	            .managerName(manager != null ? manager.getFullName() : null)
 	            .createAt(user.getCreatedAt())
 	            .build();
 	}

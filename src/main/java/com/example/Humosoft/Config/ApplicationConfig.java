@@ -5,8 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import com.example.Humosoft.Model.LeaveType;
 import com.example.Humosoft.Model.Role;
 import com.example.Humosoft.Model.User;
+import com.example.Humosoft.Repository.LeaveTypeRepository;
 import com.example.Humosoft.Repository.RoleRepository;
 import com.example.Humosoft.Repository.UserRepository;
 import java.util.Set;
@@ -20,8 +22,13 @@ public class ApplicationConfig {
     }
 
     @Bean
-    ApplicationRunner applicationRunner(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    ApplicationRunner applicationRunner(
+            RoleRepository roleRepository,
+            UserRepository userRepository,
+            LeaveTypeRepository leaveTypeRepository,  // Thêm repository này
+            PasswordEncoder passwordEncoder) {
         return args -> {
+
             // Tạo Role nếu chưa có
             Role adminRole = roleRepository.findByName("ROLE_ADMIN").orElseGet(() -> {
                 Role role = new Role();
@@ -49,12 +56,32 @@ public class ApplicationConfig {
                 admin.setFullName("Administrator");
                 admin.setEmail("vunguyen10112k4@gmail.com");
                 admin.setPhone("0123456789");
-              
-  
+
                 admin.setRole(Set.of(adminRole)); // Gán quyền Admin
                 userRepository.save(admin);
                 System.out.println("Admin account created: username=admin, password=admin123");
             }
+
+            // 🛠 Tạo sẵn các loại nghỉ phép nếu chưa tồn tại
+            createLeaveTypeIfNotExists(leaveTypeRepository, "Nghỉ phép năm", "Nghỉ hưởng nguyên lương", 12, true);
+            createLeaveTypeIfNotExists(leaveTypeRepository, "Nghỉ ốm", "Nghỉ có giấy khám bệnh", 5, true);
+            createLeaveTypeIfNotExists(leaveTypeRepository, "Nghỉ thai sản", "Dành cho nhân viên nữ", 180, true);
+            createLeaveTypeIfNotExists(leaveTypeRepository, "Nghỉ không lương", "Nghỉ cá nhân không hưởng lương", 10, false);
         };
+    }
+
+    // Hàm tạo LeaveType nếu chưa tồn tại
+    private void createLeaveTypeIfNotExists(
+            LeaveTypeRepository leaveTypeRepository,
+            String name, String description, int maxDays, boolean isPaid) {
+        if (leaveTypeRepository.findByLeaveTypeName(name).isEmpty()) {
+            LeaveType leaveType = new LeaveType();
+            leaveType.setLeaveTypeName(name);
+            leaveType.setDescription(description);
+            leaveType.setMaxDays(maxDays);
+            leaveType.setPaid(isPaid);
+            leaveTypeRepository.save(leaveType);
+            System.out.println("Created LeaveType: " + name);
+        }
     }
 }

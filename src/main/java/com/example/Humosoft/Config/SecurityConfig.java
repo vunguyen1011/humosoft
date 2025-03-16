@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
    
-    private final static String[] WHITE_URL = {"/auth/signin","/mails/sendrequest","/users/forgot-password"};
+    private final static String[] WHITE_URL = {"/auth/signin","/mails/sendrequest","/users/forgot-password","attendances/check-in/*","attendances/check-out/*"};
 
 
     @Bean

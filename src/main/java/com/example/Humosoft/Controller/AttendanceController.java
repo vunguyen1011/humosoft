@@ -27,12 +27,13 @@ import lombok.RequiredArgsConstructor;
 public class AttendanceController {
 	private final AttendanceService attendanceService;
 	@PostMapping
-	 public Apiresponse<TimeSheetResponse> createTimeSheet(@RequestBody TimeSheetRequest  request){
-		TimeSheetResponse timeSheetResponse=attendanceService.createTimesheet(request);
-		return Apiresponse.<TimeSheetResponse>builder()
-				.result(timeSheetResponse)
-				.build();
+	public Apiresponse<List<TimeSheetResponse>> createTimeSheet(@RequestBody TimeSheetRequest request) {
+	    List<TimeSheetResponse> timeSheetResponses = attendanceService.createTimeSheet(request);
+	    return Apiresponse.<List<TimeSheetResponse>>builder()
+	            .result(timeSheetResponses)
+	            .build();
 	}
+
 	@GetMapping
 	public Apiresponse<List<TimeSheetResponse>> getAll(){
 		List<TimeSheetResponse> timeSheetResponses=attendanceService.getAll();

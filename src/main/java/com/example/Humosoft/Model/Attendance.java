@@ -31,7 +31,7 @@ public class Attendance {
     private LocalDateTime checkOut;
     private String status;  // Trạng thái (Active/Locked)
     private double totalHours;
-    private boolean isDeleted;
+    private boolean deleted;
     private String notes;
     
 }

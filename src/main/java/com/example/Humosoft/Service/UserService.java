@@ -31,13 +31,26 @@ public class UserService {
 	private final JwtService jwtService;
 
 	public UserResponse create(UserRequest userRequest) {
+		 if (userRepository.existsByEmail(userRequest.getEmail())) {
+	            throw new WebErrorConfig(ErrorCode.EMAIL_ALREADY_EXISTS);
+	        }
+
+	        // Kiểm tra số điện thoại đã tồn tại chưa
+	        if (userRepository.existsByPhone(userRequest.getPhone())) {
+	            throw new WebErrorConfig(ErrorCode.PHONE_ALREADY_EXISTS);
+	        }
+
+	        
 		User user = userMapper.toUser(userRequest);
 		userRepository.save(user);
 		return userMapper.toUserResponse(user);
 	}
 
 	public void createLogin(UserLogin userLogin) throws MessagingException {
-
+		// Kiểm tra username đã tồn tại chưa
+        if (userRepository.existsByUsername(userLogin.getUsername())) {
+            throw new WebErrorConfig(ErrorCode.USERNAME_ALREADY_EXISTS);
+        }
 		User user = userRepository.findByEmail(userLogin.getEmail())
 				.orElseThrow(() -> new WebErrorConfig(ErrorCode.USER_NOT_FOUND));
 		user.setUsername(userLogin.getUsername());
@@ -67,8 +80,8 @@ public class UserService {
 		return userMapper.toUserResponse(user);
 	}
 
-	public List<UserResponse> findUserByFullNameOrEmail(String request) {
-		return userRepository.findByFullNameOrEmail(request, request).stream().map(userMapper::toUserResponse).toList();
+	public List<UserResponse> findUser(String request) {
+		return userRepository.findByFullNameOrEmailOrPhoneOrDepartment(request).stream().map(userMapper::toUserResponse).toList();
 	}
 
 	public User findUserByEmail(String mail) {

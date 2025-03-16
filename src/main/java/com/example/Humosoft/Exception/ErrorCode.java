@@ -23,7 +23,16 @@ public enum ErrorCode {
 	TIMESHEET_ALREADY_EXISTS(1023,"TimeSheet này đã tồn tại "),
 	TIMESHEET_DATE_OVERLAP(1024,"Thời gian bị trùng"),
 	ATTENDANCE_NOT_FOUND(1025,"không thấy ngày chấm công này"),
+	NO_DEPARTMENTS_FOUND(1028,"Không có phòng ban nào cả"),
+	EMAIL_ALREADY_EXISTS(1030,"Email này đã tồn tại"),
+	PHONE_ALREADY_EXISTS(1031,"SDT này đã tồn tại"),
+	USERNAME_ALREADY_EXISTS(1032,"Username này đã tồn tại"),
 	ALREADY_CHECKED_IN(1026,"bạn đã chấm công rồi"),
+	TIMEOFF_NOT_FOUND(1035,"Không có đơn nghỉ phép này"),
+	 LEAVE_TYPE_NOT_FOUND(1033,"Loại nghỉ phép không hợp lệ!"),
+//	    INVALID_DATE_RANGE(1034,"Ngày kết thúc không thể trước ngày bắt đầu!"),
+	    TIMEOFF_OVERLAP(1031,"Đã có đơn nghỉ phép trong khoảng thời gian này!"),
+
 	ALREADY_CHECKED_OUT(1027,"Bạn đã check out rồi"),
 	PASSWORD_MISMATCH(1010,"Mật khẩu không giống nhau");
 	private final int code;
