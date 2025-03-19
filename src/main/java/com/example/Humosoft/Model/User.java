@@ -24,9 +24,9 @@ public class User {
 	private String username;
 	private String password;
 
-	@Column(name = "created_at", columnDefinition = "DATE DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Date createdAt;
-	@Column(name = "quit_at", columnDefinition = "DATE DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "quit_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Date quitAt;
 	private boolean status;
 	@Column(name="is_deleted")

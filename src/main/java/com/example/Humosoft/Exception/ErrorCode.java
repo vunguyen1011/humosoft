@@ -32,7 +32,8 @@ public enum ErrorCode {
 	 LEAVE_TYPE_NOT_FOUND(1033,"Loại nghỉ phép không hợp lệ!"),
 //	    INVALID_DATE_RANGE(1034,"Ngày kết thúc không thể trước ngày bắt đầu!"),
 	    TIMEOFF_OVERLAP(1031,"Đã có đơn nghỉ phép trong khoảng thời gian này!"),
-
+	TASK_ALREADY_EXISTS(1040,"Task này đã tồn tại "),
+	TASK_NOT_FOUND(1041,"Task not found"),
 	ALREADY_CHECKED_OUT(1027,"Bạn đã check out rồi"),
 	PASSWORD_MISMATCH(1010,"Mật khẩu không giống nhau");
 	private final int code;
