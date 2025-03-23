@@ -214,5 +214,10 @@ public class DepartmentService {
 		// Lưu thay đổi vào database
 		departmentRepository.save(department);
 	}
+	public User getManager(String departmentName) {
+		Department department=getDepartmentByName(departmentName);
+		Integer  managerId=department.getManagerId();
+		return  managerId==null?null:userService.findUerById(managerId);
+	}
 
 }

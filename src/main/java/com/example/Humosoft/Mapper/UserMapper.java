@@ -75,12 +75,13 @@ public class UserMapper {
 	}
 
 	public UserResponse toUserResponse(User user) {
-			Integer managerId=user.getDepartment().getManagerId();
-			  User manager = null;
-			  if (user.getDepartment() != null) {
-			        managerId = user.getDepartment().getManagerId();
-			    }
-		
+	    Department department = user.getDepartment();
+	    User manager = null;
+
+	    // Kiểm tra department có tồn tại không trước khi lấy managerId
+	    if (department != null && department.getManagerId() != null) {
+	    	 manager = userRepository.findById(department.getManagerId()).orElse(null);
+	    }
 
 	    return UserResponse.builder()
 	            .fullName(user.getFullName())
@@ -90,7 +91,7 @@ public class UserMapper {
 	            .dateOfBirth(user.getDateOfBirth())
 	            .gender(user.isGender() ? "Male" : "Female")
 	            .positionName(user.getPosition() != null ? user.getPosition().getPositionName() : null)
-	            .departmentName(user.getDepartment() != null ? user.getDepartment().getDepartmentName() : null)
+	            .departmentName(department != null ? department.getDepartmentName() : null)
 	            .status(user.isStatus())
 	            .managerName(manager != null ? manager.getFullName() : null)
 	            .createAt(user.getCreatedAt())
