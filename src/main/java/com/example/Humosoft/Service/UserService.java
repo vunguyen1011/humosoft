@@ -128,5 +128,10 @@ public class UserService {
 	                         .map(userMapper::toUserResponse)
 	                         .collect(Collectors.toList());
 	}
-
+	public List<UserResponse> findAllEmpolyessNotInDepartment() {
+	   return getAll().stream()
+			   .filter(user->user.getDepartmentName()==null)
+			   .collect(Collectors.toList());
+	}
+	
 }

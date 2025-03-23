@@ -96,5 +96,12 @@ public class UserController {
                 .result(managers)
                 .build();
     }
+    @GetMapping("/not-in-department")
+    public Apiresponse<List<UserResponse>> getUserNotInDepartment() {
+        List<UserResponse> userNotInDepartment = userService.findAllEmpolyessNotInDepartment();
+        return Apiresponse.<List<UserResponse>>builder()
+                .result(userNotInDepartment)
+                .build();
+    }
 
 }
