@@ -27,10 +27,25 @@ import lombok.RequiredArgsConstructor;
 public class AttendanceController {
 	private final AttendanceService attendanceService;
 	@PostMapping
-	public Apiresponse<List<TimeSheetResponse>> createTimeSheet(@RequestBody TimeSheetRequest request) {
-	    List<TimeSheetResponse> timeSheetResponses = attendanceService.createTimeSheet(request);
+	public Apiresponse<List<TimeSheetResponse>> createTimeSheet(
+	        @RequestParam LocalDate startDate, 
+	        @RequestParam LocalDate endDate) {
+	    
+	    List<TimeSheetResponse> timeSheetResponses = attendanceService.createTimesheetForCompany(startDate, endDate);
+	    
 	    return Apiresponse.<List<TimeSheetResponse>>builder()
 	            .result(timeSheetResponses)
+	            .build();
+	}
+
+	@PostMapping("/department")
+	public Apiresponse<TimeSheetResponse> createTimeSheetForDepartment(
+	        @RequestBody TimeSheetRequest timeSheetRequest) {
+
+	    TimeSheetResponse timeSheetResponse = attendanceService.createTimesheetForDepartment(timeSheetRequest);
+
+	    return Apiresponse.<TimeSheetResponse>builder()
+	            .result(timeSheetResponse)
 	            .build();
 	}
 

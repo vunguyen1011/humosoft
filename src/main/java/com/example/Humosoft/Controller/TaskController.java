@@ -53,4 +53,11 @@ public class TaskController {
                 .message("Delete task successfully")
                 .build();
     }
+    // admin sẽ tạo task thêm thằng trưởng phòng vào cái task
+    // task managerId =id trưởng phòng 
+    // trưởng phòng thêm nhân viên  trong phòng 
+    
+    
+    
+    
 }

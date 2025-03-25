@@ -23,7 +23,7 @@ public class TimeSheetMapper {
 
         TimeSheetResponse response = new TimeSheetResponse();
         response.setId(timesheet.getId());
-        response.setName(timesheet.getName());
+        response.setName(timesheet.getName()+timesheet.getDepartment().getDepartmentName());
         response.setBranch(timesheet.getBranch());
         response.setStartDate(timesheet.getStartDate()); // java.sql.Date
         response.setEndDate(timesheet.getEndDate());     // java.sql.Date

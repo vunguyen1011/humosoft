@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.example.Humosoft.DTO.Request.DepartmentAddEmployeesRequest;
 import com.example.Humosoft.DTO.Request.DepartmentRequest;
+import com.example.Humosoft.DTO.Response.DepartmentResponse;
 import com.example.Humosoft.DTO.Response.UserResponse;
 import com.example.Humosoft.Exception.ErrorCode;
 import com.example.Humosoft.Exception.WebErrorConfig;
@@ -52,21 +54,25 @@ public class DepartmentService {
 		return null; // Or throw an exception if department is not found
 	}
 
-	public Department getDepartmentById(Integer id) {
-		return departmentRepository.findById(id).orElseThrow(() -> new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
+	public DepartmentResponse getDepartmentById(Integer id) {
+		Department department= departmentRepository.findById(id).orElseThrow(() -> new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
+		return departmentMapper.toResponse(department);
+	}
+	public DepartmentResponse getDepartmentByName(String name ) {
+		Department department= departmentRepository.findByDepartmentName(name).orElseThrow(() -> new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
+		return departmentMapper.toResponse(department);
 
 	}
-	public Department getDepartmentByName(String name ) {
-		return departmentRepository.findByDepartmentName(name).orElseThrow(() -> new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
 
+	public List<DepartmentResponse> getAll() {
+	    return departmentRepository.findAll().stream()
+	            .map(dp -> departmentMapper.toResponse(dp)) // Sử dụng lambda
+	            .collect(Collectors.toList());
 	}
 
-	public List<Department> getAll() {
-		return departmentRepository.findAll();
-	}
 
 	public void delete(Integer id) {
-		Department department = departmentRepository.findById(id)
+		Department department = departmentRepository.findById(id)	
 				.orElseThrow(() -> new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
 
 		// Xóa mềm phòng ban
@@ -215,9 +221,52 @@ public class DepartmentService {
 		departmentRepository.save(department);
 	}
 	public User getManager(String departmentName) {
-		Department department=getDepartmentByName(departmentName);
+		DepartmentResponse department=getDepartmentByName(departmentName);
 		Integer  managerId=department.getManagerId();
 		return  managerId==null?null:userService.findUerById(managerId);
 	}
+	public Department getDepartmentEntityById(Integer departmentId) {
+	    return departmentRepository.findById(departmentId)
+	            .orElseThrow(() -> new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
+	}
+	public Department getDepartmenEntitytByName(String name ) {
+		return  departmentRepository.findByDepartmentName(name).orElseThrow(() -> new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
+		
+
+	}
+	public List<UserResponse> addEmployees(DepartmentAddEmployeesRequest request) {
+	    Department department = departmentRepository.findById(request.getDepartmentId())
+	            .orElseThrow(() -> new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
+
+	    List<User> users = userRepository.findAllById(request.getUserIds());
+
+	    if (users.isEmpty()) {
+	        throw new WebErrorConfig(ErrorCode.USER_NOT_FOUND);
+	    }
+
+	    for (User user : users) {
+	      addEmployee(user.getId(),department.getId());
+	    }
+	    return users.stream().map(userMapper::toUserResponse).collect(Collectors.toList());
+	}
+	public List<UserResponse> removeEmployees(DepartmentAddEmployeesRequest request) {
+	    Department department = departmentRepository.findById(request.getDepartmentId())
+	            .orElseThrow(() -> new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
+
+	    List<User> users = userRepository.findAllById(request.getUserIds());
+
+	    if (users.isEmpty()) {
+	        throw new WebErrorConfig(ErrorCode.USER_NOT_FOUND);
+	    }
+
+	    for (User user : users) {
+	       deleteEmployee(user.getId(), department.getId()); // Gọi hàm riêng để xử lý từng nhân viên
+	    }
+
+	 
+
+	    return users.stream().map(userMapper::toUserResponse).collect(Collectors.toList());
+	}
+
 
 }

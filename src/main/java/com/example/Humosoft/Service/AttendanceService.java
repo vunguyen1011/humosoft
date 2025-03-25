@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.Humosoft.DTO.Request.TimeSheetRequest;
 import com.example.Humosoft.DTO.Response.AttendanceResponse;
+import com.example.Humosoft.DTO.Response.DepartmentResponse;
 import com.example.Humosoft.DTO.Response.TimeSheetResponse;
 import com.example.Humosoft.DTO.Response.UserResponse;
 import com.example.Humosoft.Exception.ErrorCode;
@@ -42,25 +43,30 @@ public class AttendanceService {
     private final AttendanceMapper attendanceMapper;
     private final TimeSheetMapper timeSheetMapper;
 
-     public List<TimeSheetResponse> createTimeSheet(TimeSheetRequest request){
-    	List<Department> departments=new ArrayList<Department>();
-    	if(request.getDepartmentId()==0) {
-    		departments=departmentService.getAll();
-    	}
-    	else {
-    		Department department=departmentService.getDepartmentById(request.getDepartmentId());
-    		departments.add(department);
-    	}
-    	List<TimeSheetResponse> timeSheetResponses=new ArrayList<TimeSheetResponse>();
-    	for(Department d:departments) {
-    		request.setDepartmentId(d.getId());
-    		timeSheetResponses.add(createTimesheetForDepartment(d, request));
-    	}
-    	return timeSheetResponses;
+    public List<TimeSheetResponse> createTimesheetForCompany(LocalDate startDate, LocalDate endDate) {
+        List<DepartmentResponse> departments = departmentService.getAll();
+        List<TimeSheetResponse> timeSheetResponses = new ArrayList<>();
+
+        for (DepartmentResponse department : departments) {
+            try {
+                TimeSheetRequest request = new TimeSheetRequest();
+                request.setDepartmentId(department.getId());
+                request.setStartDate(startDate);
+                request.setEndDate(endDate);
+                
+                TimeSheetResponse response = createTimesheetForDepartment(request);
+                timeSheetResponses.add(response);
+            } catch (WebErrorConfig e) {
+                logger.error("Failed to create timesheet for department {}: {}", department.getDepartmentName(), e.getMessage());
+            }
+        }
+
+        return timeSheetResponses;
     }
 
     
-    private TimeSheetResponse createTimesheetForDepartment(Department department, TimeSheetRequest timeSheetRequest) {
+    public  TimeSheetResponse createTimesheetForDepartment( TimeSheetRequest timeSheetRequest) {
+    	Department department=departmentService.getDepartmentEntityById(timeSheetRequest.getDepartmentId());
         LocalDate start = timeSheetRequest.getStartDate();
         LocalDate end = timeSheetRequest.getEndDate();
      
@@ -70,7 +76,7 @@ public class AttendanceService {
         if (isTimesheetExists) {
             throw new WebErrorConfig(ErrorCode.TIMESHEET_DATE_OVERLAP);
         }
-
+   
         Timesheet timesheet = timeSheetMapper.toTimeSheet(timeSheetRequest);
         timesheet.setDepartment(department);
         timesheetRepository.save(timesheet);
@@ -124,7 +130,7 @@ public class AttendanceService {
     public List<AttendanceResponse> getAttendanceByDepartmentName(String departmentName, LocalDate date, Integer month) {
         logger.info("Fetching attendance records for department: {}", departmentName);
 
-        Department department = departmentService.getDepartmentByName(departmentName);
+        Department department = departmentService.getDepartmenEntitytByName(departmentName);
         if (department == null) {
             throw new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND);
         }
@@ -230,6 +236,7 @@ public class AttendanceService {
 
         return attendanceMapper.toResponse(attendance);
     }
+   
 
 
 

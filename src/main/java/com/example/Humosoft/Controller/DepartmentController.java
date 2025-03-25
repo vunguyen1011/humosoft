@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.Humosoft.DTO.Request.DepartmentAddEmployeesRequest;
 import com.example.Humosoft.DTO.Request.DepartmentRequest;
 import com.example.Humosoft.Model.Department;
 import com.example.Humosoft.Model.User;
@@ -14,6 +15,7 @@ import com.example.Humosoft.Service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 
 import com.example.Humosoft.DTO.Response.Apiresponse;
+import com.example.Humosoft.DTO.Response.DepartmentResponse;
 import com.example.Humosoft.DTO.Response.UserResponse;
 
 import java.util.List;
@@ -56,28 +58,20 @@ public class DepartmentController {
 
     // Get a Department by ID
     @GetMapping("/{id}")
-    public Apiresponse<Department> getDepartmentById(@PathVariable Integer id) {
-        try {
-            Department department = departmentService.getDepartmentById(id);
-            return Apiresponse.<Department>builder()
-                    .code(HttpStatus.OK.value())  // HTTP 200
-                    .message("Department found")
-                    .result(department)
-                    .build();
-        } catch (RuntimeException e) {
-            return Apiresponse.<Department>builder()
-                    .code(HttpStatus.NOT_FOUND.value())  // HTTP 404
-                    .message("Department not found")
-                    .result(null)
-                    .build();
-        }
+    public Apiresponse<DepartmentResponse> getDepartmentById(@PathVariable Integer id) {
+    	DepartmentResponse departmentResponse=departmentService.getDepartmentById(id);
+    	 return Apiresponse.<DepartmentResponse>builder()
+                 .code(HttpStatus.OK.value())  // HTTP 200
+                 .message("Department updated successfully")
+                 .result(departmentResponse)
+                 .build();
     }
 
     // Get all Departments
     @GetMapping
-    public Apiresponse<List<Department>> getAllDepartments() {
-        List<Department> departments = departmentService.getAll();
-        return Apiresponse.<List<Department>>builder()
+    public Apiresponse<List<DepartmentResponse>> getAllDepartments() {
+        List<DepartmentResponse> departments = departmentService.getAll();
+        return Apiresponse.<List<DepartmentResponse>>builder()
                 .code(HttpStatus.OK.value())  // HTTP 200
                 .message("List of all departments")
                 .result(departments)
@@ -95,15 +89,14 @@ public class DepartmentController {
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping("/{departmentId}/employees/{employeeId}")
 
-    public Apiresponse<String> addEmployeeToDepartment(
-            @PathVariable Integer departmentId, 
-            @PathVariable Integer employeeId) {
+    public Apiresponse< List<UserResponse>> addEmployeesToDepartment(
+            @RequestBody DepartmentAddEmployeesRequest request) {
 
-        departmentService.addEmployee( employeeId , departmentId);
-        return Apiresponse.<String>builder()
+    	 List<UserResponse> userResponses=    departmentService.addEmployees(  request );
+        return Apiresponse.< List<UserResponse>>builder()
                 .code(HttpStatus.OK.value())
-                .message("Employee added to department successfully")
-                .result("Employee " + employeeId + " added to Department " + departmentId)
+                .message("Employees added to department successfully")
+                .result(userResponses)
                 .build();
     }
     @GetMapping("/employees")
@@ -116,13 +109,13 @@ public class DepartmentController {
                 .build();
     }
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @PostMapping("/{departmentId}/remove-employees/{employeeId}")
-    public Apiresponse<Void>removeEmpolyees(@PathVariable Integer employeeId,@PathVariable Integer departmentId){
-    	departmentService.deleteEmployee(employeeId, departmentId);
-    	  return Apiresponse.<Void>builder()
+    @PostMapping("/deleteEmployees")
+    public Apiresponse< List<UserResponse>>removeEmpolyees( @RequestBody DepartmentAddEmployeesRequest request){
+    	 List<UserResponse> userResponses=	departmentService.removeEmployees(request);
+    	  return Apiresponse.< List<UserResponse>>builder()
                   .code(HttpStatus.OK.value())
                   .message("Employee delete to department successfully")
-                 
+                 .result(userResponses)
                   .build();
     	
     }
