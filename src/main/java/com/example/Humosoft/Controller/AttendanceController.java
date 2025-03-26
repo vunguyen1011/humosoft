@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Humosoft.DTO.Request.TimeSheetRequest;
+import com.example.Humosoft.DTO.Request.TimeSheetRequestForCompany;
 import com.example.Humosoft.DTO.Response.Apiresponse;
 import com.example.Humosoft.DTO.Response.AttendanceResponse;
 import com.example.Humosoft.DTO.Response.TimeSheetResponse;
@@ -26,17 +27,17 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/attendances")
 public class AttendanceController {
 	private final AttendanceService attendanceService;
-	@PostMapping
+	@PostMapping("/company")
 	public Apiresponse<List<TimeSheetResponse>> createTimeSheet(
-	        @RequestParam LocalDate startDate, 
-	        @RequestParam LocalDate endDate) {
+	       @RequestBody TimeSheetRequestForCompany request) {
 	    
-	    List<TimeSheetResponse> timeSheetResponses = attendanceService.createTimesheetForCompany(startDate, endDate);
+	    List<TimeSheetResponse> timeSheetResponses = attendanceService.createTimesheetForCompany(request);
 	    
 	    return Apiresponse.<List<TimeSheetResponse>>builder()
 	            .result(timeSheetResponses)
 	            .build();
 	}
+	
 
 	@PostMapping("/department")
 	public Apiresponse<TimeSheetResponse> createTimeSheetForDepartment(
@@ -56,13 +57,14 @@ public class AttendanceController {
 				.result(timeSheetResponses)
 				.build();
 	}
-	@GetMapping("/by-department")
+	@GetMapping("/filter")
 	public Apiresponse<List<AttendanceResponse>> getAttendanceByDepartment(
-	        @RequestParam String departmentName,
+	        @RequestParam String timesheetName,
 	        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
-	        @RequestParam(required = false) Integer month    // Chọn tháng (không bắt buộc)
+	        @RequestParam(required = false) Integer month, 
+	        @RequestParam(required = false) Integer year  
 	) {
-	    List<AttendanceResponse> attendances = attendanceService.getAttendanceByDepartmentName(departmentName, date, month);
+	    List<AttendanceResponse> attendances = attendanceService.filterAttendance(timesheetName, date, month,year);
 	    return Apiresponse.<List<AttendanceResponse>>builder()
 	            .result(attendances)
 	            .build();
@@ -94,5 +96,14 @@ public class AttendanceController {
 	                .result(response)
 	                .build();
 	    }
+	    @GetMapping("/attendance-detail")
+	    public Apiresponse<List<AttendanceResponse>> getAttendanceByTimesheetName(@RequestParam String timesheetName){
+	    	List<AttendanceResponse> attendances=attendanceService.getAttendanceByTimesheetName(timesheetName);
+	    	return Apiresponse.<List<AttendanceResponse>>builder()
+	    			.result(attendances)
+	    			.build();	
+	    }
+	       
+	    
 
 }

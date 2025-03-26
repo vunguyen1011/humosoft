@@ -23,16 +23,13 @@ public class TimeSheetMapper {
 
         TimeSheetResponse response = new TimeSheetResponse();
         response.setId(timesheet.getId());
-        response.setName(timesheet.getName()+timesheet.getDepartment().getDepartmentName());
+        response.setName(timesheet.getName());
         response.setBranch(timesheet.getBranch());
         response.setStartDate(timesheet.getStartDate()); // java.sql.Date
         response.setEndDate(timesheet.getEndDate());     // java.sql.Date
         response.setType(timesheet.getType());
         response.setStatus(timesheet.getStatus());
-        
-        if (timesheet.getDepartment() != null) {
-            response.setDepartmentName(timesheet.getDepartment().getDepartmentName());
-        }
+        response.setDepartmentName(timesheet.getDepartment().getDepartmentName());  
         return response;
     }
 
@@ -47,7 +44,7 @@ public class TimeSheetMapper {
 
         Timesheet timesheet = new Timesheet();
         timesheet.setDepartment(department);
-        timesheet.setName(timeSheetRequest.getName());
+        timesheet.setName(timeSheetRequest.getName()+" for "+department.getDepartmentName());
         timesheet.setStartDate(timeSheetRequest.getStartDate());
         timesheet.setEndDate(timeSheetRequest.getEndDate());
         timesheet.setType(timeSheetRequest.getType());

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.Humosoft.Model.Attendance;
@@ -17,6 +19,10 @@ public interface AttendanceRepository extends JpaRepository<Attendance,Integer> 
 	boolean existsByUserAndDate(User user,LocalDate date);
 	List<Attendance> findAllByUserIn(List<User> users);
 	Optional<Attendance> findByUserAndDate(User user,LocalDate date);
+    @Query("SELECT a FROM Attendance a WHERE a.user.department.id = :departmentId AND a.date BETWEEN :startDate AND :endDate")
+    List<Attendance> findAllByDepartmentAndDateRange(@Param("departmentId") Integer departmentId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 //	List<Attendance> findAllByTimesheet(Timesheet timesheet);
+	
+	
 
 }
