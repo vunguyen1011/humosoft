@@ -87,7 +87,7 @@ public class DepartmentController {
     }
     
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @PostMapping("/{departmentId}/employees/{employeeId}")
+    @PostMapping("/{departmentId}/employees")
 
     public Apiresponse< List<UserResponse>> addEmployeesToDepartment(
             @RequestBody DepartmentAddEmployeesRequest request) {
