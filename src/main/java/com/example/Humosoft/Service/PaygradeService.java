@@ -58,5 +58,7 @@ public class PaygradeService {
 	    paygrade.setDeleted(true);  // Đánh dấu là đã xóa
 	    paygradeRepository.save(paygrade); // Lưu lại thay vì xóa khỏi DB
 	}
-
+	public List<Paygrade> findAll() {
+		return paygradeRepository.findAll();
+	}
 }

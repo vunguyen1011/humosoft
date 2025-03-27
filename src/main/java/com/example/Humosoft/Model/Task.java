@@ -1,18 +1,23 @@
 package com.example.Humosoft.Model;
 
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
 
 @Entity
-@Getter
-@Setter
+@Data
 public class Task {
 
     @Id
@@ -21,11 +26,20 @@ public class Task {
 
     private String taskName;
     private String description;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String status;
     private String priority;
+    @ManyToMany
+    @JoinTable(
+        name = "task_department",
+        joinColumns = @JoinColumn(name = "task_id"),
+        inverseJoinColumns = @JoinColumn(name = "department_id")
+    )
+    private Set<Department> departments;
     private boolean enabled= true;
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<SubTask> subTasks;
 
     // Getters and Setters
 }

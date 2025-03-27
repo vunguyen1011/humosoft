@@ -21,9 +21,11 @@ import com.example.Humosoft.Repository.DepartmentRepository;
 import com.example.Humosoft.Repository.RoleRepository;
 import com.example.Humosoft.Repository.UserRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class DepartmentService {
 	private final DepartmentRepository departmentRepository;

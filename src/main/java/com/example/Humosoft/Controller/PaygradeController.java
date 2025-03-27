@@ -3,6 +3,8 @@ package com.example.Humosoft.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,5 +58,10 @@ public class PaygradeController {
 
 		return Apiresponse.<Void>builder().code(204).message("Paygrade deleted successfully").result(null).build();
 
+	}
+	@GetMapping
+	public Apiresponse<List<Paygrade>> getAllPaygrades() {
+		List<Paygrade> paygrades = paygradeService.getAll();
+		return Apiresponse.<List<Paygrade>>builder().code(200).message("Success").result(paygrades).build();
 	}
 }

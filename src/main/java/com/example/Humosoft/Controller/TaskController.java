@@ -1,5 +1,6 @@
 package com.example.Humosoft.Controller;
 
+import com.example.Humosoft.DTO.Request.AddDepartmnetRequest;
 import com.example.Humosoft.DTO.Request.TaskRequest;
 import com.example.Humosoft.DTO.Response.Apiresponse;
 import com.example.Humosoft.DTO.Response.TaskResponse;
@@ -53,11 +54,32 @@ public class TaskController {
                 .message("Delete task successfully")
                 .build();
     }
-    // admin sẽ tạo task thêm thằng trưởng phòng vào cái task
-    // task managerId =id trưởng phòng 
-    // trưởng phòng thêm nhân viên  trong phòng 
     
-    
+    @PatchMapping("/add-departments")
+    public Apiresponse<Void> addDepartmentsToTask(@RequestBody AddDepartmnetRequest request) {
+		taskService.addDepartmentsToTask(request);
+		return Apiresponse.<Void>builder()
+				.code(200)
+				.message("Add departments to task successfully")
+				.build();
+    } 
+    @GetMapping("/{id}")
+    public Apiresponse<TaskResponse> findById(@PathVariable int id) {
+    			return Apiresponse.<TaskResponse>builder()
+						.code(200)
+						.message("Success")
+						.result(taskService.findById(id))
+						.build();	
+    }
+    @GetMapping("/department/{departmentId}")
+    public Apiresponse<List<TaskResponse>> getTasksByDepartmentId(@PathVariable int departmentId) {
+    			return Apiresponse.<List<TaskResponse>>builder()
+    					.code(200)
+    					.message("Success")
+    					.result(taskService.getTasksByDepartmentId(departmentId))
+    					.build();
+    			
+    }
     
     
 }

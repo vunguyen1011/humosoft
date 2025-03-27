@@ -50,10 +50,7 @@ public class User {
 	@JoinColumn(name = "department_id")
 	private Department department;
 
-	// Quan hệ với Task (LAZY để tránh load quá nhiều dữ liệu không cần thiết)
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "user_tasks", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "task_id"))
-	private List<Task> tasks;
+
 
 	// Quan hệ với Salary (LAZY để chỉ lấy khi cần thiết)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
