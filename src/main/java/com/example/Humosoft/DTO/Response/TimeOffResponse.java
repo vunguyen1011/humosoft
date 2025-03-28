@@ -3,14 +3,14 @@ package com.example.Humosoft.DTO.Response;
 import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder
 public class TimeOffResponse {
 	 private Integer id;
-	    private String username;       // Tên người dùng
+	    private String fullname;       // Tên người dùng
 	    private String leaveTypeName;  // Tên loại nghỉ phép
 	    private LocalDate startDate;
 	    private LocalDate endDate;

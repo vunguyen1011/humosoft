@@ -19,18 +19,20 @@ public class TimeOffMapper {
 	private final UserRepository userRepository;
 	private final LeaveTypeRepository leaveTypeRepository;
 	 public TimeOffResponse convertToResponse(TimeOff timeOff) {
-	        return new TimeOffResponse(
-	                timeOff.getId(),
-	                timeOff.getUser().getUsername(),   // Lấy username
-	                timeOff.getLeaveType().getLeaveTypeName(),  // Lấy tên loại nghỉ phép
-	                timeOff.getStartDate(),
-	                timeOff.getEndDate(),
-	                timeOff.getReason(),
-	                timeOff.getStatus(),
-	                timeOff.getTotalDays(),
-	                timeOff.getCreatedAt()
-	        );	
-	    } public TimeOff convertToEntity(TimeOffRequest requestDTO) {
+	       return TimeOffResponse.builder()
+	                .id(timeOff.getId())
+	                .fullname(timeOff.getUser().getFullName())
+	                .leaveTypeName(timeOff.getLeaveType().getLeaveTypeName())
+	                .startDate(timeOff.getStartDate())
+	                .endDate(timeOff.getEndDate())
+	                .reason(timeOff.getReason())
+	                .status(timeOff.getStatus())
+	                .totalDays(timeOff.getTotalDays())
+	                .createdAt(timeOff.getCreatedAt())
+	                .build(); 	
+	    } 
+	 
+	 public TimeOff convertToEntity(TimeOffRequest requestDTO) {
 	        TimeOff timeOff = new TimeOff();
 	        User user = userRepository.findById(requestDTO.getUserId()).orElseThrow(()->new WebErrorConfig(ErrorCode.USER_NOT_FOUND));
 	        LeaveType leaveType=leaveTypeRepository.findById(requestDTO.getLeaveTypeId()).orElseThrow(()->new WebErrorConfig(ErrorCode.LEAVE_TYPE_NOT_FOUND));
