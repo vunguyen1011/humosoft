@@ -1,5 +1,6 @@
 package com.example.Humosoft.Model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
@@ -19,8 +20,8 @@ public class Holiday {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private Date start;
-    private Date end;
+    private LocalDate start;
+    private LocalDate end;
     private String description;
 
     // Getters and Setters

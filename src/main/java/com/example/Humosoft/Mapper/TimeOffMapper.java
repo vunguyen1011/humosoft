@@ -29,6 +29,7 @@ public class TimeOffMapper {
 	                .status(timeOff.getStatus())
 	                .totalDays(timeOff.getTotalDays())
 	                .createdAt(timeOff.getCreatedAt())
+	                .isPaid(timeOff.getLeaveType().isPaid())
 	                .build(); 	
 	    } 
 	 

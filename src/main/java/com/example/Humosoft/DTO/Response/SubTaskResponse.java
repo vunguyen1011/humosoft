@@ -16,4 +16,5 @@ public class SubTaskResponse {
 	private LocalDate endDate;
 
 	private String taskName;
+	private String status;
 }

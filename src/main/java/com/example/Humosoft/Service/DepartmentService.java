@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import com.example.Humosoft.DTO.Request.DepartmentAddEmployeesRequest;
@@ -55,9 +56,10 @@ public class DepartmentService {
 		}
 		return null; // Or throw an exception if department is not found
 	}
-
+	   @Transactional
 	public DepartmentResponse getDepartmentById(Integer id) {
 		Department department= departmentRepository.findById(id).orElseThrow(() -> new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
+	    Hibernate.initialize(department.getTasks()); // Initialize the tasks collection
 		return departmentMapper.toResponse(department);
 	}
 	public DepartmentResponse getDepartmentByName(String name ) {

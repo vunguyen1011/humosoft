@@ -7,10 +7,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Data;
+import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
+@Data
 public class Salary {
 
 	@Id
@@ -22,13 +26,19 @@ public class Salary {
 	private Paygrade paygrade;
 
     @ManyToOne
+    @ToString.Exclude
     @JoinColumn(name = "user_id")  // Đảm bảo có cột khóa ngoại trỏ đến User
     private User user;
-	private Date salaryMonth;
-	private int baseSalary;
-	private int bonuses;
-	private int deductions;
-	private int netSalary;
+	private Integer month;
+	private Integer year;
+	private double basicSalary;
+	private double bonuses;
+	private double deductions;
+	private double netSalary;
+	private double allowences;	
+	private double grossSalary;
+	private double commission;
+	
 	private boolean status;
 
 	// Getters and Setters

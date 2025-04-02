@@ -1,5 +1,6 @@
 package com.example.Humosoft.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -27,4 +28,23 @@ public class HolidayService {
 	public void delete (Integer Id) {
 		holidayRepository.deleteById(Id);
 	}
+	public Integer countHolidayDaysInMonth(Integer month, Integer year) {
+	    List<Holiday> holidays = holidayRepository.getHolidaysInMonth(month, year);
+	    Integer totalDays = 0;
+
+	    for (Holiday holiday : holidays) {
+	        LocalDate start = holiday.getStart();
+	        LocalDate end = holiday.getEnd();
+
+	        while (!start.isAfter(end)) { // Lặp từng ngày từ start đến end
+	            if (start.getMonthValue() == month && start.getYear() == year) {
+	                totalDays++; // Đếm ngày thuộc tháng cần tìm
+	            }
+	            start = start.plusDays(1);
+	        }
+	    }
+	    return totalDays;
+	}
+
+
 }

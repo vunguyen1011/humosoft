@@ -22,7 +22,10 @@ public interface AttendanceRepository extends JpaRepository<Attendance,Integer> 
     @Query("SELECT a FROM Attendance a WHERE a.user.department.id = :departmentId AND a.date BETWEEN :startDate AND :endDate")
     List<Attendance> findAllByDepartmentAndDateRange(@Param("departmentId") Integer departmentId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 //	List<Attendance> findAllByTimesheet(Timesheet timesheet);
-	
+    @Query("SELECT a FROM Attendance a WHERE a.user = :user AND MONTH(a.date) = :month AND YEAR(a.date) = :year")
+    List<Attendance> findByUserAndMonthAndYear(@Param("user") User user, @Param("month") int month, @Param("year") int year);
+    
+
 	
 
 }

@@ -36,6 +36,7 @@ public class TaskController {
                 .result(taskService.updateTask(id, taskRequest))
                 .build();
     }
+   
 
     @PostMapping
     public Apiresponse<TaskResponse> addTask(@RequestBody TaskRequest taskRequest) {
@@ -80,6 +81,12 @@ public class TaskController {
     					.build();
     			
     }
-    
+    @PatchMapping("/change/{taskId}")
+    public Apiresponse<Void> setChange(@PathVariable Integer taskId){
+    	taskService.changeStatus(taskId);
+    	return Apiresponse.<Void>builder()
+    			.message("change status change")
+    			.build();
+    }
     
 }

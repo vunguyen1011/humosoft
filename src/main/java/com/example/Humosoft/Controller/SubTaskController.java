@@ -68,6 +68,19 @@ public Apiresponse<SubTaskResponse> createSubTask(@RequestBody SubTaskRequest su
 				.result(subTaskResponses)
 				.build();
 	}
+	@PatchMapping("/change/{subTaskId}")
+    public Apiresponse<Void> setChange(@PathVariable Integer subTaskId){
+    	subTaskService.changeStatus(subTaskId);
+    	return Apiresponse.<Void>builder()
+    			.message("change status change")
+    			.build();
+    }
+	@GetMapping("/{id}")
+	public Apiresponse<SubTaskResponse> findById(@PathVariable Integer id){
+		return Apiresponse.<SubTaskResponse>builder()
+				.result(subTaskService.findById(id))
+				.build();
+	}
 	
 	
 	

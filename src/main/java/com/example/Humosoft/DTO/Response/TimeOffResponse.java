@@ -18,4 +18,5 @@ public class TimeOffResponse {
 	    private String status;
 	    private int totalDays;         
 	    private LocalDate createdAt;
+	    private boolean isPaid;
 }

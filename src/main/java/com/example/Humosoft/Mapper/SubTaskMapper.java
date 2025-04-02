@@ -33,6 +33,7 @@ public class SubTaskMapper {
 				.startDate(subTask.getStartDate())
 				.endDate(subTask.getEndDate())
 				.taskName(subTask.getTask().getTaskName())
+				.status(subTask.getStatus())
 				.build();
 	}
 	public SubTask toSubTask(SubTaskRequest request) {

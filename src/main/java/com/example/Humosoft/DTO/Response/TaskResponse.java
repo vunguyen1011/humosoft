@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -16,8 +17,9 @@ public class TaskResponse {
     String taskName;
     String description;
     LocalDate startDate;
-    LocalDate endDate;
+    LocalDate endDate;	
     String status;
     String priority;
+    List<String> departmentName;
     boolean enabled= true;
 }

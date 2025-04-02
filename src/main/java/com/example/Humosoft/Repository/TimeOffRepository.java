@@ -23,7 +23,7 @@ public interface TimeOffRepository extends JpaRepository<TimeOff, Integer> {
     @Query("SELECT t FROM TimeOff t WHERE t.user.department.departmentName = :departmentName " +
     	       "AND t.user.id <> (SELECT d.managerId FROM Department d WHERE d.departmentName = :departmentName)")
     	List<TimeOff> findByDepartmentNameExcludingManager(@Param("departmentName") String departmentName);
-
+    List<TimeOff> findByUser_Id(Integer userId);
 
 
 }

@@ -2,6 +2,10 @@ package com.example.Humosoft.Model;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
@@ -25,7 +30,8 @@ public class Department {
     private Integer managerId;
     private Integer employees=0;
     private Boolean deleted=false;
-    @ManyToMany(mappedBy = "departments",fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "departments",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JsonBackReference
     private Set<Task> tasks;
     
 

@@ -30,4 +30,5 @@ public class SubTask {
 	private Task task;
 	@ElementCollection
 	private List<Integer> userIds=new ArrayList<>();
+	private String status;
 }

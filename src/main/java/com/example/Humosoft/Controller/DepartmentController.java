@@ -1,4 +1,4 @@
-package com.example.Humosoft.Controller;
+	package com.example.Humosoft.Controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

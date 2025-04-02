@@ -22,6 +22,7 @@ import com.example.Humosoft.Repository.AttendanceRepository;
 import com.example.Humosoft.Repository.TimeSheetRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -127,31 +128,7 @@ public class AttendanceService {
 	public List<TimeSheetResponse> getAll() {
 		return timesheetRepository.findAll().stream().map(timeSheetMapper::toResponse).collect(Collectors.toList());
 	}
-//
-//	public List<AttendanceResponse> getAttendanceByDepartmentName(String departmentName, LocalDate date,
-//			Integer month,Integer year) {
-//		Department department = departmentService.getDepartmenEntitytByName(departmentName);
-//		if (department == null) {
-//			throw new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND);
-//		}
-//		List<UserResponse> users = departmentService.findUserInDepartment(departmentName);
-//		if (users.isEmpty()) {
-//			return List.of();
-//		}
-//
-//		List<User> userEntities = users.stream().map(userResponse -> userService.findUerById(userResponse.getId()))
-//				.filter(user -> user != null).collect(Collectors.toList());
-//
-//		List<Attendance> attendances = attendanceRepository.findAllByUserIn(userEntities);
-//
-//		// Chỉ lọc nếu người dùng nhập điều kiện lọc
-//		if (date != null || month != null) {
-//			attendances = filterAttendanceByDateOrMonth(attendances, date, month,year);
-//		}
-//
-//	
-//		return attendances.stream().map(attendanceMapper::toResponse).collect(Collectors.toList());
-//	}
+
 
 	private List<AttendanceResponse> filterAttendanceByDateOrMonth(List<AttendanceResponse> attendances, LocalDate date,
 			Integer month,Integer year) {
@@ -254,5 +231,23 @@ public class AttendanceService {
 
 		
     }
+    public List<Attendance> getDaysWithCheckInAndCheckOut(Integer userId, Integer month,Integer year) {
+		
+     User user = userService.findUerById(userId);
+        if (user == null) {
+         throw new WebErrorConfig(ErrorCode.USER_NOT_FOUND);
+    }
 
+        List<Attendance> attendances = attendanceRepository.findByUserAndMonthAndYear(user, month,year);
+     return attendances.stream()
+              .filter(att -> att.getCheckIn() != null && att.getCheckOut() != null)
+              .collect(Collectors.toList());
+   }
+    public List<Attendance> checkSunday(List<Attendance> attendances) {
+		return attendances.stream()
+				.filter(att -> att.getDate().getDayOfWeek().equals(DayOfWeek.SUNDAY))
+				.collect(Collectors.toList());
+	}
 }
+
+

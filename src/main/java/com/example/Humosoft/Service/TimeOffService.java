@@ -92,6 +92,13 @@ public class TimeOffService {
 	                .map(timeOffMapper::convertToResponse)
 	                .collect(Collectors.toList());
 	    }
+	    public  List<TimeOffResponse> getTimeOffRequestsByUser(Integer userId) {
+	        List<TimeOff> timeOffRequests = timeOffRepository.findByUser_Id(userId);
+
+	        return timeOffRequests.stream()
+	                .map(timeOffMapper::convertToResponse)
+	                .collect(Collectors.toList());
+	    }
 	    
 
 
