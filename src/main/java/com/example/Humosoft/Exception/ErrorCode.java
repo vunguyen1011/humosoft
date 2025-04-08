@@ -37,7 +37,8 @@ public enum ErrorCode {
 	TASK_ALREADY_EXISTS(1040,"Task này đã tồn tại "),
 	TASK_NOT_FOUND(1041,"Task not found"),
 	ALREADY_CHECKED_OUT(1027,"Bạn đã check out rồi"),
-	PASSWORD_MISMATCH(1010,"Mật khẩu không giống nhau");
+	PASSWORD_MISMATCH(1010,"Mật khẩu không giống nhau"),
+	APPLICATION_NOT_FOUND(1042,"Không tìm thấy đơn ứng tuyển này");
 	private final int code;
 	private final String message;
 
