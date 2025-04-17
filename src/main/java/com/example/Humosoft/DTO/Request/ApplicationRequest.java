@@ -37,4 +37,5 @@ public class ApplicationRequest {
 
 	@NotNull(message = "Position ID is required")
 	private Integer positionId; // ID của vị trí
+	
 }

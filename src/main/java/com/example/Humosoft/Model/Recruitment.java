@@ -29,6 +29,6 @@ public class Recruitment {
 	private String cvPath; // Thêm trường để lưu đường dẫn file CV
 	private String coverLetter;
 	private LocalDate applicationDate;
-	private Integer applicationId;
+	private String  applicationName;
 
 }

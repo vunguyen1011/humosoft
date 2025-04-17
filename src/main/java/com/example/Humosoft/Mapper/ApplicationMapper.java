@@ -11,6 +11,7 @@ import com.example.Humosoft.Exception.WebErrorConfig;
 import com.example.Humosoft.Model.Application;
 import com.example.Humosoft.Model.Department;
 import com.example.Humosoft.Model.Position;
+import com.example.Humosoft.Repository.ApplicationRepository;
 import com.example.Humosoft.Repository.DepartmentRepository;
 import com.example.Humosoft.Repository.PositionRepository;
 
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class ApplicationMapper {
 	private final DepartmentRepository departmentRepository;
 	private final PositionRepository positionRepository;
+	private final ApplicationRepository applicationRepository;
 
 	public Application toEntity(ApplicationRequest request) {
 		if (request == null) {

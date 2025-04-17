@@ -35,5 +35,6 @@ public class RecruitmentRequest {
 
 	@Size(max = 1000, message = "Cover letter must not exceed 1000 characters")
 	private String coverLetter;
+	
 
 }
