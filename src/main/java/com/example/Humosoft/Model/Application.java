@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -31,9 +32,11 @@ public class Application {
 	private LocalDate endDate; // Ngày kết thúc
 	private String status; // Trạng thái: "OPEN", "CLOSED", "DRAFT",...
 
-	@OneToOne
+	@ManyToOne
+	@JoinColumn(name = "department_id")
 	private Department department; // Phòng ban tuyển
-	@OneToOne
+	@ManyToOne
+	@JoinColumn(name = "recruiter_id")
 	private Position position; // Vị trí tuyển
 	private boolean deleted = false; // Trạng thái xóa
 

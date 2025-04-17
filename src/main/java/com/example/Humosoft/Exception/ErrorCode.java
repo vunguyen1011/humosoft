@@ -32,6 +32,7 @@ public enum ErrorCode {
 	 LEAVE_TYPE_NOT_FOUND(1033,"Loại nghỉ phép không hợp lệ!"),
 	 TIMESHEET_NOT_FOUND(1036,"Không tìm thấy timesheet này"),
 	 SUBTASK_NOT_FOUND(1037,"Không tìm thấy subtask này"),
+	 RECRUITMENT_NOT_FOUND(1038,"Không tìm thấy tuyển dụng này"),
 //	    INVALID_DATE_RANGE(1034,"Ngày kết thúc không thể trước ngày bắt đầu!"),
 	    TIMEOFF_OVERLAP(1031,"Đã có đơn nghỉ phép trong khoảng thời gian này!"),
 	TASK_ALREADY_EXISTS(1040,"Task này đã tồn tại "),

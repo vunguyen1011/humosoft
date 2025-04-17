@@ -5,6 +5,8 @@ import com.example.Humosoft.Exception.ErrorCode;
 import com.example.Humosoft.Exception.WebErrorConfig;
 import com.example.Humosoft.Mapper.InterviewMapper;
 import com.example.Humosoft.Model.Interview;
+import com.example.Humosoft.Model.Recruitment;
+import com.example.Humosoft.Model.User;
 import com.example.Humosoft.Repository.InterviewRepository;
 import com.example.Humosoft.Repository.RecruitmentRepository;
 import com.example.Humosoft.Repository.UserRepository;
@@ -31,11 +33,12 @@ public class InterviewService {
         if (interviewRepository.existsById(interview.getId())) {
             throw new WebErrorConfig(ErrorCode.INTERVIEW_ALREADY_EXISTS);
         }
-        String userName = userRepository.findById(interview.getInterviewer()).get().getFullName();
-        String recruitmentName = recruitmentRepository.findById(interview.getRecruitment()).get().getCandidateName();
+        User user = userRepository.findById(interview.getInterviewer())
+				.orElseThrow(() -> new WebErrorConfig(ErrorCode.USER_NOT_FOUND));
+        Recruitment recruitment = recruitmentRepository.findById(interview.getRecruitment()).orElseThrow(() -> new WebErrorConfig(ErrorCode.RECRUITMENT_NOT_FOUND));
         InterviewResponse interviewResponse = interviewMapper.toInterviewResponse(interview);
-        interviewResponse.setInterviewerName(userName);
-        interviewResponse.setRecruitmentName(recruitmentName);
+        interviewResponse.setInterviewerName(user.getFullName());
+        interviewResponse.setRecruitmentName(recruitment.getCandidateName());
         interviewRepository.save(interview);
         return interviewResponse;
     }
