@@ -64,4 +64,6 @@ public class UserRequest {
 
     @NotBlank(message = "Department name cannot be empty")
     private String departmentName;
+    
+    private String username;
 }

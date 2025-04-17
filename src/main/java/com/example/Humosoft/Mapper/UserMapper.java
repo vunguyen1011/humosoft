@@ -70,7 +70,7 @@ public class UserMapper {
 				.orElseThrow(() -> new WebErrorConfig(ErrorCode.PAYGRADE_NOT_FOUND));
 		user.setPosition(position);
 		user.setDepartment(department);
-
+		user.setUsername(userRequest.getUsername());
 		return user; // Trả về đối tượng User đã được tạo và ánh xạ
 	}
 
@@ -95,6 +95,7 @@ public class UserMapper {
 	            .status(user.isStatus())
 	            .managerName(manager != null ? manager.getFullName() : null)
 	            .createAt(user.getCreatedAt())
+	            .username(user.getUsername())
 	            .build();
 	}
 

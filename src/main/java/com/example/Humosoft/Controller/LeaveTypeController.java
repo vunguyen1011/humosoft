@@ -2,6 +2,7 @@ package com.example.Humosoft.Controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +16,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/leave-types")
 public class LeaveTypeController {
-	
+
 	private final LeaveTypeService leaveTypeService;
+	@GetMapping
 	Apiresponse<List<LeaveType>> getAllLeaveTypes() {
 		return Apiresponse.<List<LeaveType>>builder()
 				.code(200)

@@ -19,5 +19,5 @@ public class UserResponse {
     private String managerName;
     private boolean status;
     private Date createAt;
-   
+   private String username;
 }
