@@ -49,11 +49,21 @@ public class SalaryController {
 		return salaryService.getSalaryByUserFullNameInMonthAndYear(departmentName, month, year);
 	}
 	@GetMapping("/search")
-	 public Apiresponse<List<SalaryResponse>> searchSalaries(@RequestParam(required = false) String departmentName, @RequestParam(required = false) String fullName, @RequestParam(required = false) String email, @RequestParam(required = false) String phone, @RequestParam int  month,@RequestParam  int year) {
-		return Apiresponse.<List<SalaryResponse>>builder()
-				.result(salaryService.getSalary(departmentName, fullName, email, phone, month, year))
-				.build();
-	}
+	public Apiresponse<List<SalaryResponse>> searchSalaries(
+	        @RequestParam(required = false) String departmentName, 
+	        @RequestParam(required = false) String fullName, 
+	        @RequestParam(required = false) String email, 
+	        @RequestParam(required = false) String phone, 
+	        @RequestParam int month,
+	        @RequestParam int year) {
+	    System.out.println("Params: month=" + month + ", year=" + year + ", dept=" + departmentName + 
+	                       ", fullName=" + fullName + ", email=" + email + ", phone=" + phone);
+	    List<SalaryResponse> result = salaryService.getSalary(departmentName, fullName, email, phone, month, year);
+	    System.out.println("Result: " + result);
+	    return Apiresponse.<List<SalaryResponse>>builder()
+	            .result(result)
+	            .build();
+	} 
 	@GetMapping("/export-salary")
 	public void exportSalary(
 	        HttpServletResponse response,

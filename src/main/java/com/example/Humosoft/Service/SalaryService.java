@@ -133,8 +133,8 @@ public class SalaryService {
 		List<SalaryResponse>salarie = getSalaryMonthAndYear(month, year);
 		return salarie.stream().filter(salary -> salary.getFullname().toLowerCase().contains(fullName.toLowerCase())).toList();
 	}
-	public List<SalaryResponse> getSalary(String departmentName, String fullname ,String email,String number,int month, int year) {
-	    List<Salary> salaries = salaryRepository.findSalaries(departmentName, fullname,email,number,year, month);
+	public List<SalaryResponse> getSalary(String departmentName, String fullname, String email, String number, int month, int year) {
+	    List<Salary> salaries = salaryRepository.findSalaries(departmentName, fullname, email, number, month, year);
 	    return salaries.stream().map(salaryMapper::toSalaryResponse).toList();
 	}
 	public void exportExcel(HttpServletResponse response,List<SalaryResponse> salaries) throws IOException {

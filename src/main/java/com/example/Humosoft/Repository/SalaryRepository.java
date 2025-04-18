@@ -18,12 +18,12 @@ public interface SalaryRepository extends JpaRepository<Salary, Integer> {
 	// Tìm lương theo tên nhân viên (không phân biệt hoa thường)
 	List<Salary> findByUserFullNameContainingIgnoreCase(String fullName);
 
-	@Query("SELECT s FROM Salary s JOIN s.user u JOIN u.department d " +
-		       "WHERE (:departmentName IS NULL OR d.departmentName = :departmentName) " +
-		       "OR (:fullName IS NULL OR u.fullName = :fullName) " +
-		       "OR (:email IS NULL OR u.email = :email) " +
-		       "OR (:phone IS NULL OR u.phone = :phone) " +
-		       "OR (s.year = :year AND s.month = :month)")
+	@Query("SELECT s FROM Salary s LEFT JOIN s.user u LEFT JOIN u.department d " +
+		       "WHERE s.year = :year AND s.month = :month " +
+		       "AND (:departmentName IS NULL OR d.departmentName = :departmentName OR d.departmentName IS NULL) " +
+		       "AND (:fullName IS NULL OR u.fullName = :fullName OR u.fullName IS NULL) " +
+		       "AND (:email IS NULL OR u.email = :email OR u.email IS NULL) " +
+		       "AND (:phone IS NULL OR u.phone = :phone OR u.phone IS NULL)")
 		List<Salary> findSalaries(@Param("departmentName") String departmentName, 
 		                          @Param("fullName") String fullName,
 		                          @Param("email") String email, 
