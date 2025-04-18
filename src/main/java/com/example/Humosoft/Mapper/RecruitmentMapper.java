@@ -30,5 +30,6 @@ public Recruitment toRecruitment(RecruitmentRequest recruitment) {
 			.coverLetter(recruitment.getCoverLetter())
 			.applicationDate(LocalDate.now()) // Ngày nộp đơn là ngày hiện tại
 			.build();
-}
+}	
+
 }

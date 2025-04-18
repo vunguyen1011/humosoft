@@ -47,8 +47,8 @@ public class ApplicationController {
 		 return Apiresponse.<List<ApplicationResponse>>builder().code(200).message("Get all applications successfully")
 				 .result(applications).build();
 	 }
-	 @PatchMapping("/delete{id}")
-	 public Apiresponse<Void> delete(int id) {
+	 @PatchMapping("/delete/{id}")
+	 public Apiresponse<Void> delete(@PathVariable Integer id) {
 		 applicationService.delete(id);
 		 return Apiresponse.<Void>builder().code(200).message("Delete application successfully").build();
 	 }

@@ -1,5 +1,7 @@
 package com.example.Humosoft.Service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.example.Humosoft.DTO.Request.RecruitmentRequest;
@@ -29,6 +31,10 @@ public class RecruitmentService {
 		var recruitment = recruitmentMapper.toRecruitment(recruitmentRequest);
 		recruitmentRepository.save(recruitment);
 		fileService.saveFile(recruitmentRequest.getCvFile());
+		
 		return recruitment;
+	}
+	public List<Recruitment> getByApplication(String applicationName){
+		return recruitmentRepository.findByApplicationName(applicationName);
 	}
 }
