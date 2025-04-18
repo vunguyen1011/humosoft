@@ -36,7 +36,7 @@ public class ApplicationController {
 				 .result(application).build();
 	 }
 	 @PostMapping("/update/{id}")
-	 	public Apiresponse<ApplicationResponse> update(int id, ApplicationRequest request) {
+	 	public Apiresponse<ApplicationResponse> update(@PathVariable Integer id,@RequestBody ApplicationRequest request) {
 		 var application = applicationService.update(id, request);
 		 return Apiresponse.<ApplicationResponse>builder().code(200).message("Update application successfully")
 				 .result(application).build();
