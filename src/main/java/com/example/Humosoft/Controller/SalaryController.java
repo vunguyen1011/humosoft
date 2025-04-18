@@ -63,7 +63,8 @@ public class SalaryController {
 	    return Apiresponse.<List<SalaryResponse>>builder()
 	            .result(result)
 	            .build();
-	} 
+	}  
+	
 	@GetMapping("/export-salary")
 	public void exportSalary(
 	        HttpServletResponse response,

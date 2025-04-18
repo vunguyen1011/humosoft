@@ -19,7 +19,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/recruitment")
+@RequestMapping("/recruitments")
 @RequiredArgsConstructor
 public class RecruitmentController {
 	private final RecruitmentService recruitmentService;

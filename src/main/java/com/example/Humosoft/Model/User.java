@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Data
 public class User {
@@ -53,7 +55,9 @@ public class User {
 
 
 	// Quan hệ với Salary (LAZY để chỉ lấy khi cần thiết)
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonIgnore
 	private List<Salary> salaries;
 
 	private String oldPassword;
