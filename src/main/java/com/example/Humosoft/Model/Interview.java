@@ -27,15 +27,13 @@
 	
 	    private Date interviewDate;
 	    private String location;
-	    private String status;
+	    private String status="PENDING";
 	    private String notes;
-	    private String result;
+
 	
 	    @Column(name = "created_at")
-	    private Date createdAt;
-	
-	    @Column(name = "updated_at")
-	    private Date updatedAt;
+	    private Date createdAt=new Date();	
+
 	
 	}
 	

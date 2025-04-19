@@ -1,5 +1,6 @@
 package com.example.Humosoft.DTO.Response;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,8 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class InterviewResponse {
     private Integer id;
@@ -15,9 +17,7 @@ public class InterviewResponse {
     private String interviewerName;// ten người phỏng vấn
     private Date interviewDate;
     private String location;
-    private String status;
     private String notes;
-    private String result;
     private Date createdAt;
     private Date updatedAt;
 

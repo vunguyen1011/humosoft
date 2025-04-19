@@ -1,5 +1,6 @@
 package com.example.Humosoft.Controller;
 
+import com.example.Humosoft.DTO.Request.InterviewRequest;
 import com.example.Humosoft.DTO.Response.Apiresponse;
 import com.example.Humosoft.DTO.Response.InterviewResponse;
 import com.example.Humosoft.DTO.Response.TaskResponse;
@@ -37,11 +38,12 @@ public class InterviewController {
     }
 
     @PostMapping
-    public Apiresponse<InterviewResponse> createInterview(@RequestBody Interview interview) {
+    public Apiresponse<InterviewResponse> createInterview(@RequestBody InterviewRequest interview) {
+    	InterviewResponse interviewResponse=interviewService.createInterview(interview);
         return Apiresponse.<InterviewResponse>builder()
                 .code(201)
                 .message("Interview created successfully")
-                .result(interviewService.createInterview(interview))
+                .result(interviewResponse)
                 .build();
     }
 

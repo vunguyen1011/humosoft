@@ -37,4 +37,10 @@ public class RecruitmentService {
 	public List<Recruitment> getByApplication(String applicationName){
 		return recruitmentRepository.findByApplicationName(applicationName);
 	}
+	public Recruitment setChange(Integer id,String status) {
+			Recruitment recruitment=recruitmentRepository.findById(id).orElseThrow(()->new WebErrorConfig(ErrorCode.RECRUITMENT_NOT_FOUND));
+			recruitment.setStatus(status);
+			recruitmentRepository.save(recruitment);
+			return recruitment;
+	}
 }

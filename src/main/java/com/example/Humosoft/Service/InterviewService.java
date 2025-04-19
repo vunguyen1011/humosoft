@@ -1,5 +1,6 @@
 package com.example.Humosoft.Service;
 
+import com.example.Humosoft.DTO.Request.InterviewRequest;
 import com.example.Humosoft.DTO.Response.InterviewResponse;
 import com.example.Humosoft.Exception.ErrorCode;
 import com.example.Humosoft.Exception.WebErrorConfig;
@@ -29,18 +30,18 @@ public class InterviewService {
     UserRepository userRepository;
     RecruitmentRepository recruitmentRepository;
 
-    public InterviewResponse createInterview(Interview interview) {
-        if (interviewRepository.existsById(interview.getId())) {
-            throw new WebErrorConfig(ErrorCode.INTERVIEW_ALREADY_EXISTS);
-        }
-        User user = userRepository.findById(interview.getInterviewer())
-				.orElseThrow(() -> new WebErrorConfig(ErrorCode.USER_NOT_FOUND));
-        Recruitment recruitment = recruitmentRepository.findById(interview.getRecruitment()).orElseThrow(() -> new WebErrorConfig(ErrorCode.RECRUITMENT_NOT_FOUND));
-        InterviewResponse interviewResponse = interviewMapper.toInterviewResponse(interview);
-        interviewResponse.setInterviewerName(user.getFullName());
-        interviewResponse.setRecruitmentName(recruitment.getCandidateName());
-        interviewRepository.save(interview);
-        return interviewResponse;
+    public InterviewResponse createInterview(InterviewRequest interviewRequest) {
+
+    
+
+        Interview interview = interviewMapper.toInterview(interviewRequest);
+
+        // ❗ Save trước để đảm bảo có ID và các field tự sinh
+        interview = interviewRepository.save(interview);
+
+      
+
+		return interviewMapper.toInterviewResponse(interview);
     }
 
     public List<InterviewResponse> getAllInterviews() {
