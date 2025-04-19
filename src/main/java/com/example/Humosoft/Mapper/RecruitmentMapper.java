@@ -18,18 +18,18 @@ import lombok.RequiredArgsConstructor;
 public class RecruitmentMapper {
 	private final  ApplicationRepository applicationRepository;
 	
-public Recruitment toRecruitment(RecruitmentRequest recruitment) {
-	Application application=applicationRepository.findById(recruitment.getApplicationId()).orElseThrow(()->new WebErrorConfig(ErrorCode.APPLICATION_NOT_FOUND)); 
-	return Recruitment.builder()
-			.candidateName(recruitment.getCandidateName())
-			.applicationName(application.getTitle())
-			.email(recruitment.getEmail())
-			.phone(recruitment.getPhone())
-			.status(recruitment.getStatus())
-			.cvPath(recruitment.getCvFile().getOriginalFilename()) // Lưu tên file CV
-			.coverLetter(recruitment.getCoverLetter())
-			.applicationDate(LocalDate.now()) // Ngày nộp đơn là ngày hiện tại
-			.build();
-}	
+	public Recruitment toRecruitment(RecruitmentRequest recruitment) {
+		Application application=applicationRepository.findById(recruitment.getApplicationId()).orElseThrow(()->new WebErrorConfig(ErrorCode.APPLICATION_NOT_FOUND)); 
+		return Recruitment.builder()
+				.candidateName(recruitment.getCandidateName())
+				.applicationName(application.getTitle())
+				.email(recruitment.getEmail())
+				.phone(recruitment.getPhone())
+				.status(recruitment.getStatus())
+				.cvPath(recruitment.getCvFile().getOriginalFilename()) // Lưu tên file CV
+				.coverLetter(recruitment.getCoverLetter())
+				.applicationDate(LocalDate.now()) // Ngày nộp đơn là ngày hiện tại
+				.build();
+	}	
 
 }
