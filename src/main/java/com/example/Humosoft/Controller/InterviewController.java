@@ -47,14 +47,14 @@ public class InterviewController {
                 .build();
     }
 
-    @PutMapping("/{id}")
-    public Apiresponse<InterviewResponse> updateInterview(@PathVariable Integer id, @RequestBody Interview interview) {
-        return Apiresponse.<InterviewResponse>builder()
-                .code(200)
-                .message("Interview updated successfully")
-                .result(interviewService.updateInterview(id, interview))
-                .build();
-    }
+//    @PutMapping("/{id}")
+//    public Apiresponse<InterviewResponse> updateInterview(@PathVariable Integer id, @RequestBody Interview interview) {
+//        return Apiresponse.<InterviewResponse>builder()
+//                .code(200)
+//                .message("Interview updated successfully")
+//                .result(interviewService.updateInterview(id, interview))
+//                .build();
+//    }
 
     @DeleteMapping("/{id}")
     public Apiresponse<Void> deleteInterview(@PathVariable Integer id) {
