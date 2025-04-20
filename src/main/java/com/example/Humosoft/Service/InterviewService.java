@@ -32,8 +32,6 @@ public class InterviewService {
 
     public InterviewResponse createInterview(InterviewRequest interviewRequest) {
 
-    
-
         Interview interview = interviewMapper.toInterview(interviewRequest);
 
         // ❗ Save trước để đảm bảo có ID và các field tự sinh
@@ -47,42 +45,32 @@ public class InterviewService {
     public List<InterviewResponse> getAllInterviews() {
         List<Interview> interviews = interviewRepository.findAll();
         return interviews.stream()
-                .map(interview -> {
-                    InterviewResponse response = interviewMapper.toInterviewResponse(interview);
-                    String userName = userRepository.findById(interview.getInterviewer())
-                            .map(user -> user.getFullName())
-                            .orElse(null);
-                    String recruitmentName = recruitmentRepository.findById(interview.getRecruitment())
-                            .map(recruitment -> recruitment.getCandidateName())
-                            .orElse(null);
-                    response.setInterviewerName(userName);
-                    response.setRecruitmentName(recruitmentName);
-                    return response;
-                })
+                .map(interview -> interviewMapper.toInterviewResponse(interview))
                 .collect(Collectors.toList());
     }
 
-    public InterviewResponse updateInterview(Integer id, Interview updatedInterview) {
-        if (!interviewRepository.existsById(id)) {
-            throw new WebErrorConfig(ErrorCode.INTERVIEW_NOT_FOUND);
-        }
-        
-        updatedInterview.setId(id);
-        interviewRepository.save(updatedInterview);
-        
-        String userName = userRepository.findById(updatedInterview.getInterviewer())
-                .map(user -> user.getFullName())
-                .orElse(null);
-        String recruitmentName = recruitmentRepository.findById(updatedInterview.getRecruitment())
-                .map(recruitment -> recruitment.getCandidateName())
-                .orElse(null);
-        
-        InterviewResponse interviewResponse = interviewMapper.toInterviewResponse(updatedInterview);
-        interviewResponse.setInterviewerName(userName);
-        interviewResponse.setRecruitmentName(recruitmentName);
-        
-        return interviewResponse;
-    }
+//
+//    public InterviewResponse updateInterview(Integer id, Interview updatedInterview) {
+//        if (!interviewRepository.existsById(id)) {
+//            throw new WebErrorConfig(ErrorCode.INTERVIEW_NOT_FOUND);
+//        }
+//        
+//        updatedInterview.setId(id);
+//        interviewRepository.save(updatedInterview);
+//        
+//        String userName = userRepository.findById(updatedInterview.getInterviewer())
+//                .map(user -> user.getFullName())
+//                .orElse(null);
+//        String recruitmentName = recruitmentRepository.findById(updatedInterview.getRecruitment())
+//                .map(recruitment -> recruitment.getCandidateName())
+//                .orElse(null);
+//        
+//        InterviewResponse interviewResponse = interviewMapper.toInterviewResponse(updatedInterview);
+//        interviewResponse.setInterviewerName(userName);
+//        interviewResponse.setRecruitmentName(recruitmentName);
+//        
+//        return interviewResponse;
+//    }
 
     public void deleteInterview(Integer id) {
         if (!interviewRepository.existsById(id)) {
@@ -100,18 +88,7 @@ public class InterviewService {
         Interview interview = interviewRepository.findById(id)
                 .orElseThrow(() -> new WebErrorConfig(ErrorCode.INTERVIEW_NOT_FOUND));
         
-        InterviewResponse response = interviewMapper.toInterviewResponse(interview);
-        
-        String userName = userRepository.findById(interview.getInterviewer())
-                .map(user -> user.getFullName())
-                .orElse(null);
-        String recruitmentName = recruitmentRepository.findById(interview.getRecruitment())
-                .map(recruitment -> recruitment.getCandidateName())
-                .orElse(null);
-        
-        response.setInterviewerName(userName);
-        response.setRecruitmentName(recruitmentName);
-        
-        return response;
+       
+        return interviewMapper.toInterviewResponse(interview);
     }
 }

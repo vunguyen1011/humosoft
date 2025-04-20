@@ -57,7 +57,7 @@ public class InterviewMapper {
 	            .location(interview.getLocation())
 
 	            .notes(interview.getNotes())
-	            .recruitmentName(recruitment.getCandidateName())
+	            .recruitmentName(recruitment)
 	            .interviewerName(user.getFullName())
 	            .createdAt(interview.getCreatedAt())
 	            .build();
