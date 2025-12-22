@@ -35,10 +35,8 @@ public class SecurityConfig {
         // Cấu hình quyền truy cập cho các endpoint công khai
         httpSecurity
                 .authorizeHttpRequests(request -> request
-                // Các URL trong WHITE_URL không cần xác thực
-
-                // Các yêu cầu còn lại cần phải xác thực
-                .anyRequest().permitAll());
+                        .requestMatchers(WHITE_URL).permitAll()
+                .anyRequest().authenticated());
 
         httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
