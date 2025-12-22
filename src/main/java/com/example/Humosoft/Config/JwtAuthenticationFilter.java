@@ -43,35 +43,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // Kiểm tra nếu Authorization không tồn tại hoặc không bắt đầu bằng "Bearer "
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            // Nếu không có header Authorization, chỉ cần tiếp tục filter chain
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Lấy JWT từ Authorization header
         jwt = authHeader.substring(7);
 
-        // Lấy tên người dùng từ JWT và tìm người dùng trong cơ sở dữ liệu
         String username = jwtService.extractbyUsername(jwt);
         var user = userRepository.findByUsername(username).orElseThrow(() -> new WebErrorConfig(ErrorCode.USER_NOT_FOUND));
 
-        // Kiểm tra xem token có hợp lệ không
         if (jwtService.isValid(jwt, user)) {
 
-            // Nếu người dùng có vai trò, tạo danh sách quyền
             List<GrantedAuthority> authorities = user.getRole().stream()
                     .map(role -> new SimpleGrantedAuthority(role.getName()))
                     .collect(Collectors.toList());
-
-            // Tạo đối tượng authenticationToken với thông tin người dùng và quyền
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, authorities);
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-            // Lưu thông tin người dùng và quyền vào SecurityContextHolder
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
-
-        // Tiếp tục filter chain để request tiếp tục đi vào hệ thống
         filterChain.doFilter(request, response);
     }
 }

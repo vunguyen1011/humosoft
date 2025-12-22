@@ -21,7 +21,7 @@ public enum ErrorCode {
 	USER_ALREADY_MANAGER(1015,"Đã là trưởng ban của phòng khác"),
 	NO_MANAGER_FOUND(1016,"Phòng này không có trưởng phòng"),
 	TIMESHEET_ALREADY_EXISTS(1023,"TimeSheet này đã tồn tại "),
-	TIMESHEET_DATE_OVERLAP(1024,"Thời gian bị trùng"),
+	TIMESHEET_DATE_OVERLAP(1024,"Thời gian không hợp lệ đã có timesheet trong khoảng thời gian này hoặc quá 1 tháng"),
 	ATTENDANCE_NOT_FOUND(1025,"không thấy ngày chấm công này"),
 	NO_DEPARTMENTS_FOUND(1028,"Không có phòng ban nào cả"),
 	EMAIL_ALREADY_EXISTS(1030,"Email này đã tồn tại"),

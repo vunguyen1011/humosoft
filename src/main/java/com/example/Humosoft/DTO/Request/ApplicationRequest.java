@@ -30,11 +30,9 @@ public class ApplicationRequest {
 	@Future(message = "End date must be in the future")
 	private LocalDate endDate; // Ngày kết thúc
 
-	
 
 	@NotNull(message = "Department ID is required")
 	private Integer departmentId; // ID của phòng ban
-
 	@NotNull(message = "Position ID is required")
 	private Integer positionId; // ID của vị trí
 	

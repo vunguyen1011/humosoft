@@ -2,6 +2,7 @@ package com.example.Humosoft.Service;
 
 import java.util.List;
 
+import com.example.Humosoft.Repository.ApplicationRepository;
 import org.springframework.stereotype.Service;
 
 import com.example.Humosoft.DTO.Request.RecruitmentRequest;
@@ -19,13 +20,10 @@ public class RecruitmentService {
 	private final RecruitmentRepository recruitmentRepository;
 	private final RecruitmentMapper recruitmentMapper;
 	private final FileService fileService;
-	/**
-	 * Lưu thông tin tuyển dụng
-	 * @param recruitmentRequest Thông tin tuyển dụng
-	 * @return Đối tượng Recruitment đã được lưu vào cơ sở dữ liệu
-	 */
+	private final ApplicationRepository applicationRepository;
+
 	public Recruitment saveRecruitment(RecruitmentRequest recruitmentRequest) {
-		if(recruitmentRepository.existsById(recruitmentRequest.getApplicationId())) {
+		if (!applicationRepository.existsById(recruitmentRequest.getApplicationId())) {
 			throw new WebErrorConfig(ErrorCode.APPLICATION_NOT_FOUND);
 		}
 		var recruitment = recruitmentMapper.toRecruitment(recruitmentRequest);
@@ -35,7 +33,7 @@ public class RecruitmentService {
 		return recruitment;
 	}
 	public List<Recruitment> getByApplication(String applicationName){
-		return recruitmentRepository.findByApplicationName(applicationName);
+		return recruitmentRepository.findByApplicationNameIgnoreCase(applicationName);
 	}
 	public Recruitment setChange(Integer id,String status) {
 			Recruitment recruitment=recruitmentRepository.findById(id).orElseThrow(()->new WebErrorConfig(ErrorCode.RECRUITMENT_NOT_FOUND));

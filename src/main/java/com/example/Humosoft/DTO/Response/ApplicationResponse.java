@@ -13,10 +13,8 @@ import lombok.Data;
 @Data
 public class ApplicationResponse {
 	private int id;
-
 	private String title;
 	private String description;
-	
 	private int numberOfVacancies; 
 	private LocalDate startDate;
 	private LocalDate endDate; 

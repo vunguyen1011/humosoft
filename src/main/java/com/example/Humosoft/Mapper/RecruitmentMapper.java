@@ -22,7 +22,7 @@ public class RecruitmentMapper {
 		Application application=applicationRepository.findById(recruitment.getApplicationId()).orElseThrow(()->new WebErrorConfig(ErrorCode.APPLICATION_NOT_FOUND)); 
 		return Recruitment.builder()
 				.candidateName(recruitment.getCandidateName())
-				.applicationName(application.getTitle())
+				.applicationName(application.getTitle().trim())
 				.email(recruitment.getEmail())
 				.phone(recruitment.getPhone())
 				.status(recruitment.getStatus())

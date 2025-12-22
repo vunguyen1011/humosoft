@@ -30,9 +30,7 @@ public class AttendanceController {
 	@PostMapping("/company")
 	public Apiresponse<List<TimeSheetResponse>> createTimeSheet(
 	       @RequestBody TimeSheetRequestForCompany request) {
-	    
 	    List<TimeSheetResponse> timeSheetResponses = attendanceService.createTimesheetForCompany(request);
-	    
 	    return Apiresponse.<List<TimeSheetResponse>>builder()
 	            .result(timeSheetResponses)
 	            .build();

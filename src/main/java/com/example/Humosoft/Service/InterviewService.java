@@ -27,14 +27,13 @@ import java.util.stream.Collectors;
 public class InterviewService {
     InterviewRepository interviewRepository;
     InterviewMapper interviewMapper;
-    UserRepository userRepository;
-    RecruitmentRepository recruitmentRepository;
+
 
     public InterviewResponse createInterview(InterviewRequest interviewRequest) {
 
         Interview interview = interviewMapper.toInterview(interviewRequest);
 
-        // ❗ Save trước để đảm bảo có ID và các field tự sinh
+        // Save trước để đảm bảo có ID và các field tự sinh
         interview = interviewRepository.save(interview);
 
       
@@ -49,28 +48,7 @@ public class InterviewService {
                 .collect(Collectors.toList());
     }
 
-//
-//    public InterviewResponse updateInterview(Integer id, Interview updatedInterview) {
-//        if (!interviewRepository.existsById(id)) {
-//            throw new WebErrorConfig(ErrorCode.INTERVIEW_NOT_FOUND);
-//        }
-//        
-//        updatedInterview.setId(id);
-//        interviewRepository.save(updatedInterview);
-//        
-//        String userName = userRepository.findById(updatedInterview.getInterviewer())
-//                .map(user -> user.getFullName())
-//                .orElse(null);
-//        String recruitmentName = recruitmentRepository.findById(updatedInterview.getRecruitment())
-//                .map(recruitment -> recruitment.getCandidateName())
-//                .orElse(null);
-//        
-//        InterviewResponse interviewResponse = interviewMapper.toInterviewResponse(updatedInterview);
-//        interviewResponse.setInterviewerName(userName);
-//        interviewResponse.setRecruitmentName(recruitmentName);
-//        
-//        return interviewResponse;
-//    }
+
 
     public void deleteInterview(Integer id) {
         if (!interviewRepository.existsById(id)) {

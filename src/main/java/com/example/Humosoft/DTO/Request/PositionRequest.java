@@ -12,7 +12,6 @@ import lombok.Data;
 @Data
 public class PositionRequest {
 	private String positionName;
-
 	private String paygradeName;
 	private String description;
 }

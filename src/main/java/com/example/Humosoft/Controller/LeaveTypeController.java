@@ -26,4 +26,5 @@ public class LeaveTypeController {
 				.result(leaveTypeService.getAllLeaveTypes())
 				.build();
 	}
+
 }

@@ -8,5 +8,4 @@ import com.example.Humosoft.Model.Recruitment;
 
 public interface RecruitmentRepository extends JpaRepository<Recruitment, Integer>{
 	boolean existsById(Integer id); // Kiểm tra xem có tồn tại bản ghi với id này không
-	List<Recruitment> findByApplicationName(String applicationName);
-}
+	List<Recruitment> findByApplicationNameIgnoreCase(String applicationName);}

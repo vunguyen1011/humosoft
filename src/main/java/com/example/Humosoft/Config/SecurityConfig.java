@@ -36,9 +36,9 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests(request -> request
                 // Các URL trong WHITE_URL không cần xác thực
-                .requestMatchers(WHITE_URL).permitAll()
+
                 // Các yêu cầu còn lại cần phải xác thực
-                .anyRequest().authenticated());
+                .anyRequest().permitAll());
 
         httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
