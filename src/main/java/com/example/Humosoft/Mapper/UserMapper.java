@@ -67,10 +67,10 @@ public class UserMapper {
 		Department department = departmentRepository.findByDepartmentName(userRequest.getDepartmentName())
 				.orElseThrow(() -> new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
 		Position position = positionRepository.findByPositionName(userRequest.getPositionName())
-				.orElseThrow(() -> new WebErrorConfig(ErrorCode.PAYGRADE_NOT_FOUND));
+				.orElseThrow(() -> new WebErrorConfig(ErrorCode.POSITION_NOT_FOUND));
 		user.setPosition(position);
 		user.setDepartment(department);
-		user.setUsername(userRequest.getUsername());
+
 		return user; // Trả về đối tượng User đã được tạo và ánh xạ
 	}
 

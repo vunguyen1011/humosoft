@@ -61,6 +61,8 @@ public class User {
 	private List<Salary> salaries;
 
 	private String oldPassword;
+	private boolean isLocked = false;
+	private int failedLoginAttempts = 0;
 
 	@PrePersist
 	protected void onCreate() {

@@ -43,6 +43,10 @@ public class DepartmentService {
 	public Department updateDepartment(Integer id, DepartmentRequest request) {
 		Department department = departmentRepository.findById(id)
 				.orElseThrow(() -> new WebErrorConfig(ErrorCode.DEPARTMENT_NOT_FOUND));
+		if(departmentRepository.existsByDepartmentName(request.getDepartmentName()))
+		{
+			throw new WebErrorConfig(ErrorCode.DEPARTMENT_ALREADY_EXISTS);
+		}
 
 		department.setDepartmentName(request.getDepartmentName());
 		department.setDescription(request.getDescription());

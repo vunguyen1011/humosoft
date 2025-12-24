@@ -36,7 +36,7 @@ public class UserController {
 		
 	}
 	@PostMapping("/create")
-	public Apiresponse<Void>createLogin(@RequestBody UserLogin request) throws MessagingException{
+	public Apiresponse<Void>createLogin( @Valid @RequestBody UserLogin request) throws MessagingException{
 		userService.createLogin(request);
 		return Apiresponse.<Void>builder()
 				.message("Login create success")

@@ -41,7 +41,8 @@ public enum ErrorCode {
 	PASSWORD_MISMATCH(1010,"Mật khẩu không giống nhau"),
 	APPLICATION_NOT_FOUND(1042,"Không tìm thấy đơn ứng tuyển này"),
 	INTERVIEW_ALREADY_EXISTS(1050,"Interview này đã tồn tại "),
-	INTERVIEW_NOT_FOUND(1042,"Không tìm thấy interview này");
+	INTERVIEW_NOT_FOUND(1042,"Không tìm thấy interview này"),
+	USER_DELETED(1051,"Tài khoản hoặc mật khẩu không chính xác");
 	private final int code;
 	private final String message;
 

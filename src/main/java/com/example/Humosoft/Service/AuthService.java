@@ -30,7 +30,9 @@ public class AuthService {
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new WebErrorConfig(ErrorCode.INVALID_CREDENTIALS);  // Nếu mật khẩu không khớp, ném lỗi
         }
-
+        if(user.isDeleted()==true) {
+        	throw new WebErrorConfig(ErrorCode.USER_DELETED);
+        }
         // Tạo JWT token cho người dùng
         String accessToken = jwtService.generateAccessToken(user.getUsername());  // Tạo access token
         return accessToken;  // Trả về access token
