@@ -2,6 +2,7 @@ package com.example.Humosoft.Controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.Humosoft.DTO.Request.TimeOffRequest;
@@ -20,7 +21,7 @@ public class TimeOffController {
 
     // Tạo đơn nghỉ phép
     @PostMapping
-    public Apiresponse<String> submitTimeOffRequest(@RequestBody TimeOffRequest request) {
+    public Apiresponse<String> submitTimeOffRequest(@Valid @RequestBody TimeOffRequest request) {
         timeOffService.submitTimeOffRequest(request);
         return Apiresponse.<String>builder()
                 .result("Đơn nghỉ phép đã được gửi!")

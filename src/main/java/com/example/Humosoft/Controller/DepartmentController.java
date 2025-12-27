@@ -7,6 +7,7 @@ import com.example.Humosoft.DTO.Response.DepartmentResponse;
 import com.example.Humosoft.DTO.Response.UserResponse;
 import com.example.Humosoft.Model.Department;
 import com.example.Humosoft.Service.DepartmentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,7 +24,7 @@ public class DepartmentController {
 
     @PostMapping
     public Apiresponse<Department> createDepartment(
-            @RequestBody DepartmentRequest request) {
+          @Valid @RequestBody DepartmentRequest request) {
 
         Department department = departmentService.createDepartment(request);
 
